@@ -1,0 +1,23 @@
+{
+  "name": "cmake_style",
+  "version": "1.0.0",
+  "description": "A style checker for CMakeLists.txt files",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^10.1.1",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "@types/pegjs": "^0.10.0",
+    "@types/yargs": "^11.0.0",
+    "logging": "^3.2.0",
+    "pegjs": "^0.10.0",
+    "yargs": "^11.0.0"
+  }
+}

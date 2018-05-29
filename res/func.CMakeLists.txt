@@ -1,9 +1,8 @@
-test()
-add_library ( convoy_tracking STATIC 
-    #>>> include/*.h
-    include/convoy_extractor/convoy_extractor.h
-    include/convoy_extractor/convoy_extractor_imp.h
-    include/convoy_extractor/convoy_in_extraction.h
-    include/convoy_extractor/convoy_track_polisher.h
- 
-) # commentttt
+target_include_directories( convoy_tracking
+    PUBLIC
+        include
+        ${CURRENT_PROJECT_VIEW}/common/src/include # FIXME: should have its own target
+        ${CURRENT_PROJECT_VIEW}/common/src/include/grid_base # FIXME: should have its own target
+    PRIVATE
+        src
+)

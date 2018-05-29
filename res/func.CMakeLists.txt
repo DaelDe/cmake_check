@@ -1,0 +1,9 @@
+test()
+add_library ( convoy_tracking STATIC 
+    #>>> include/*.h
+    include/convoy_extractor/convoy_extractor.h
+    include/convoy_extractor/convoy_extractor_imp.h
+    include/convoy_extractor/convoy_in_extraction.h
+    include/convoy_extractor/convoy_track_polisher.h
+ 
+) # commentttt

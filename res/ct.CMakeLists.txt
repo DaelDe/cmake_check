@@ -1,0 +1,80 @@
+add_library(convoy_tracking STATIC
+    #>>> include/*.h
+    include/convoy_extractor/convoy_extractor.h
+    include/convoy_extractor/convoy_extractor_imp.h
+    include/convoy_extractor/convoy_in_extraction.h
+    include/convoy_extractor/convoy_track_polisher.h
+    include/convoy_track_extractor/convoy_track_extractor.h
+    include/convoy_track_segment/convoy_track_segment.h
+    include/free_map/free_map.h
+    include/free_map/free_map_extractor.h
+    include/free_map/free_map_extractor_imp.h
+    include/free_map/free_map_extrapolator.h
+    include/free_map/free_map_extrapolator_imp.h
+    include/free_map/free_map_imp.h
+    include/segment_tracker/segment_tracker.h
+    #>>> src/*.h
+    src/convoy_track_segment_initializer/convoy_track_segment_initializer.h
+    #>>> src/*.cpp
+    src/convoy_extractor/convoy_extractor.cpp
+    src/convoy_extractor/convoy_in_extraction.cpp
+    src/convoy_extractor/convoy_track_polisher.cpp
+    src/convoy_track_extractor/convoy_track_extractor.cpp
+    src/convoy_track_segment/convoy_track_segment.cpp
+    src/convoy_track_segment_initializer/convoy_track_segment_initializer.cpp
+    src/segment_tracker/segment_tracker.cpp
+)
+
+#>>source_groups> include
+source_group("include\\convoy_extractor" REGULAR_EXPRESSION include/convoy_extractor/)
+source_group("include\\convoy_track_extractor" REGULAR_EXPRESSION include/convoy_track_extractor/)
+source_group("include\\convoy_track_segment" REGULAR_EXPRESSION include/convoy_track_segment/)
+source_group("include\\free_map" REGULAR_EXPRESSION include/free_map/)
+source_group("include\\segment_tracker" REGULAR_EXPRESSION include/segment_tracker/)
+#>>source_groups> src
+source_group("src\\convoy_extractor" REGULAR_EXPRESSION src/convoy_extractor/)
+source_group("src\\convoy_track_extractor" REGULAR_EXPRESSION src/convoy_track_extractor/)
+source_group("src\\convoy_track_segment" REGULAR_EXPRESSION src/convoy_track_segment/)
+source_group("src\\convoy_track_segment_initializer" REGULAR_EXPRESSION src/convoy_track_segment_initializer/)
+source_group("src\\segment_tracker" REGULAR_EXPRESSION src/segment_tracker/)
+
+target_include_directories(convoy_tracking
+    PUBLIC
+        include
+        ${CURRENT_PROJECT_VIEW}/common/src/include # FIXME: should have its own target
+        ${CURRENT_PROJECT_VIEW}/common/src/include/grid_base # FIXME: should have its own target
+    PRIVATE
+        src
+)
+
+target_link_libraries(convoy_tracking
+PUBLIC
+    maps
+    eigen
+    interfaces
+    positioning_server_interface
+    assertion
+    json_serialization
+    math_library
+PRIVATE
+    kalman_filter
+)
+
+set_target_properties(convoy_tracking PROPERTIES
+    FOLDER road_fusion
+)
+
+eb_target_add_logging_public(convoy_tracking
+    CONVOY_EXTRACTOR 
+    CONVOY_TRACK_EXTRACTOR 
+    CONVOY_TRACK_SEGMENT 
+    KALMAN_FILTER 
+    JSON 
+    CONVOY_TRACK_SEGMENT_INITIALIZER 
+    FREE_MAP 
+    SEGMENT_TRACKER
+)
+
+if (RF_INCLUDE_TESTS AND WIN32)
+    add_subdirectory(test)
+endif()

@@ -44,7 +44,7 @@ line_ending  =  lc:line_comment nl:newline
                 / newline
 // A # not immediately followed by a Bracket Argument forms a line comment that runs until the end of the line:
 // TBD: the match is still too narrow
-line_comment =  '#'[^\[][a-zA-Z0-9 \t\(\)=\-.<>/\*_:#]* 
+line_comment =  '#'[^\[][a-zA-Z0-9 \t\(\)=\-.<>/\*_:#,]* 
                 { return cComment('line', text().slice(1), location()) }
 space        =  sp:[ \t]+ 
                 { return  cWhiteSpace('space', sp.join(''), location()) }
@@ -65,8 +65,26 @@ command_invocation  = cindent:space* comm:identifier aindent:(space*) '(' args:a
                                   } 
 // returns the whole identifier as string
 identifier          =  iden:( [A-Za-z_][A-Za-z0-9_]* ) {return `${iden[0]}${iden[1].join('')}`}
-arguments           =  argument? separated_arguments* 
-separated_arguments =  separation+ argument? / separation* '(' arguments ')'
+arguments           =  a:argument? sa:separated_arguments* 
+                        {
+                            // flatten array from 2 to one dimension
+                            sa = sa.reduce((acc, val) => acc.concat(val), []);
+                            if( a != null ){
+                                sa.splice(0,0,a);
+                            }
+                            return sa;
+                        }
+separated_arguments =  s:separation+ a:argument? 
+                        {
+                            console.log(s)
+                            console.log()
+                            // one array for all results
+                            if( a != null ){
+                                s.push(a)
+                            }
+                            return s;
+                        }
+                        / separation* '(' arguments ')'
 separation          =  space / line_ending
 /*
 Command names are case-insensitive. Nested unquoted parentheses in the arguments must balance. 
@@ -119,7 +137,7 @@ unquoted_element  =   [^\(\)#\"\\ \t\n\r] / escape_sequence
 // An escape sequence is a \ followed by one character:
 escape_sequence  =  escape_identity / escape_encoded / escape_semicolon
 escape_identity  =  '\\'e:[^A-Za-z0-9;] { return e }
-escape_encoded   =  '\t' / '\r' / '\n'
+escape_encoded   =  '\\t' / '\\r' / '\\n'
 escape_semicolon =  '\\;'
 
 // A # immediately followed by a Bracket Argument forms a bracket comment consisting of the entire bracket enclosure:

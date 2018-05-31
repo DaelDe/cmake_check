@@ -75,20 +75,17 @@ export class CMakeFile{
 
     commands():Command[]{
         return this.cmake.filter( el => {
-            if( el['type'] == 'command'){
-                return el;
-            }
-        })
+            return el['type'] == 'command';
+        });
     }
 
     command(name:string):Command|undefined{
-        return this.cmake.find( (el)=>{
-            if( el['type']=='command' && el['name'] == name ){
-                return el;
-            }else{
-                return undefined;
-            }
-        })
+        return new Command(
+                this.cmake.find( (el:any)=>{
+                    return ( el['type']=='command' && el['name'] == name );
+                }
+            )
+        );
     }
 }
 

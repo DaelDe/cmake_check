@@ -1,21 +1,41 @@
 // A grammar for any file written in CMake language 
 //(https://cmake.org/cmake/help/latest/manual/cmake-language.7.html)
 
+/*
+needs simplification:
+define return array contents
+maybe everything should return an array and it is flattened at some point
+*/
+
 {
+    /*
+        The result array consists of objects with members:
+        - type: one of ['whitespace', 'comment','command']
+        - class:
+            - for whitespace one of ['space','newline']
+            - for comment one of ['line', 'bracket']
+            - for command it is undefined
+        - name: identifier of a command
+        - args: for command only, flat array of all arguments (including whitespace and comments)
+
+    */
     var elements=[]
 
     function cWhiteSpace(cl, txt, loc){
-        return {type:"whitespace", class:cl, value:txt, loc:loc};
+        return {type:"whitespace", class:cl, value:txt, location:loc};
     }
 
     function cComment(cl, txt, loc){
-        return {type:"comment", class:cl, value:txt, loc:loc};
+        return {type:"comment", class:cl, value:txt, location:loc};
     }
 
     function cArg(cl, txt, loc){
-        return {type:"argument", class:cl, value:txt, loc:loc};
+        return {type:"argument", class:cl, name:txt, location:loc};
     }
 
+    function flattenDeep(arr1){
+    return arr1.reduce((acc, val) => Array.isArray(val) ? acc.concat(flattenDeep(val)) : acc.concat(val), []);
+    };
 }
 
 // A CMake Language source file consists of zero or more Command Invocations 
@@ -35,7 +55,7 @@ file_element =  ci:command_invocation sp:(space*) le:line_ending
                     if( bc.length > 0) {
                         elements.push(bc);
                     }
-                    elements.push(le);
+                    elements=elements.concat(le);
                 }
 line_ending  =  lc:line_comment nl:newline
                 {
@@ -44,11 +64,13 @@ line_ending  =  lc:line_comment nl:newline
                 / newline
 // A # not immediately followed by a Bracket Argument forms a line comment that runs until the end of the line:
 // TBD: the match is still too narrow
-line_comment =  '#'[^\[][a-zA-Z0-9 \t\(\)=\-.<>/\*_:#,]* 
+line_comment =  '#'[^\[][a-zA-Z0-9 \t+*#'-_.:,;<>^°!"§$%&/()=?\[\]²³{}\\]* 
                 { return cComment('line', text().slice(1), location()) }
 space        =  sp:[ \t]+ 
                 { return  cWhiteSpace('space', sp.join(''), location()) }
-newline      =  '\n' / '\r\n'
+newline      =  '\n' 
+               { return cWhiteSpace('newline', text(), location()) }
+                / '\r\n'
                { return cWhiteSpace('newline', text(), location()) }
 // Note that any source file line not inside Command Arguments or a Bracket Comment 
 // can end in a Line Comment.
@@ -56,10 +78,10 @@ newline      =  '\n' / '\r\n'
 // A command invocation is a name followed by paren-enclosed arguments separated by whitespace.
 command_invocation  = cindent:space* comm:identifier aindent:(space*) '(' args:arguments ')'
                         {
-                            return { t:"command"
+                            return { type:"command"
                                     ,cindent:cindent.join('')
                                     ,name:comm
-                                    ,args:args
+                                    ,args: flattenDeep(args)
                                     ,aindent:aindent.join('') 
                                     ,loc:location() }
                                   } 
@@ -68,7 +90,6 @@ identifier          =  iden:( [A-Za-z_][A-Za-z0-9_]* ) {return `${iden[0]}${iden
 arguments           =  a:argument? sa:separated_arguments* 
                         {
                             // flatten array from 2 to one dimension
-                            sa = sa.reduce((acc, val) => acc.concat(val), []);
                             if( a != null ){
                                 sa.splice(0,0,a);
                             }
@@ -76,8 +97,6 @@ arguments           =  a:argument? sa:separated_arguments*
                         }
 separated_arguments =  s:separation+ a:argument? 
                         {
-                            console.log(s)
-                            console.log()
                             // one array for all results
                             if( a != null ){
                                 s.push(a)

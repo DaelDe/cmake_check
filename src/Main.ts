@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as yargs from 'yargs';
-import * as pegjs from 'pegjs';
+import * as p from './Parser';
 
 const createLogger = require('logging');  
 const log = createLogger.default('cmake_style');
@@ -21,12 +21,20 @@ let opt = yargs
 let file_path: path.ParsedPath = path.parse( opt.file );
 
 
+
 async function main() {
     try {
-        let grammar:Buffer = fs.readFileSync("grammar/cmake.pegjs");
-        let cmake:Buffer = fs.readFileSync("res/func.CMakeLists.txt");
-        const parser = pegjs.generate(grammar.toString());
-        console.log( JSON.stringify(parser.parse(cmake.toString()),null,2));
+        const parser: p.CMakeParser = new p.CMakeParser();
+
+        let cmake:Buffer = fs.readFileSync("res/CT.CMakeLists.txt");
+        let cm:p.CMakeFile = parser.parse(cmake.toString());
+        let c = cm.command('target_link_libraries');
+        if( c ){
+            console.log(c.name);
+            console.log(c.argument('eigen'))
+        }
+        //console.log(cm.commands())
+
     } catch (error) {
         if( error.name == "SyntaxError" /*instanceof pegjs.parser.SyntaxError*/ ){
             log.error(`${error.location.start.line}:${error.location.start.column} ${error.message}`);

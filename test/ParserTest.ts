@@ -83,7 +83,7 @@ describe('The Peg.js parser for the CMake language', () => {
             assert.propertyVal(r[0],'name','add_executable');
             assert.propertyVal(r[0]['args'][0],'type','argument');
             assert.propertyVal(r[0]['args'][0],'class','unquoted');
-            assert.propertyVal(r[0]['args'][0],'value','hello_world.c');
+            assert.propertyVal(r[0]['args'][0],'name','hello_world.c');
         });
     });
 });

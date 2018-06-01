@@ -60,9 +60,15 @@ export class Command{
 
 export class CMakeFile{
     private cmake:Array<any>;
+    private raw:string;
 
-    constructor( cm:Array<Object> ){
+    constructor( cm:Array<any>, raw:string ){
         this.cmake = cm;
+        this.raw = raw;
+    }
+
+    unparsed():string{
+        return this.raw;
     }
 
     toString():string{
@@ -98,7 +104,7 @@ export class CMakeParser{
     }
     
     parse( text:string ):CMakeFile{
-        return new CMakeFile( this._parse(text) );
+        return new CMakeFile( this._parse(text), text );
     }
 
     _parse( text:string ):any[]{

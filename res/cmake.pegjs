@@ -39,16 +39,17 @@ maybe everything should return an array and it is flattened at some point
 }
 
 // A CMake Language source file consists of zero or more Command Invocations 
-// separated by newlines and optionally spaces and Comments:
+// separated by newlines and optionally spaces and Comments.
 file         =  file_element* 
                 {return elements}
-file_element =  ci:command_invocation sp:(space*) le:line_ending 
+// CMake accepts the last line in the file without newline, so should the parser
+file_element =  ci:command_invocation sp:(space*) le:line_ending?
                 {
                     elements.push(ci);
                     if(sp.length != 0){
                         elements.push(sp);
                     }
-                    elements=elements.concat(le);
+                    if (le) elements=elements.concat(le);
                 } 
                 / bc:(bracket_comment/space)* le:line_ending 
                 {
@@ -57,14 +58,16 @@ file_element =  ci:command_invocation sp:(space*) le:line_ending
                     }
                     elements=elements.concat(le);
                 }
-line_ending  =  lc:line_comment nl:newline
+// although a line may always be terminated with a newline, 
+// CMake accepts the last line in the file without newline, so should the parser
+line_ending  =  lc:line_comment nl:newline?
                 {
-                    return [lc,nl];
+                	if (nl){ return [lc,nl]; }
+                    else { return [lc]}
                 }
                 / newline
 // A # not immediately followed by a Bracket Argument forms a line comment that runs until the end of the line:
-// TBD: the match is still too narrow
-line_comment =  '#'[^\[][a-zA-Z0-9 \t+*#'-_.:,;<>^°!"§$%&/()=?\[\]²³{}\\]* 
+line_comment =  '#'[^\[][^\r\n]* 
                 { return cComment('line', text().slice(1), location()) }
 space        =  sp:[ \t]+ 
                 { return  cWhiteSpace('space', sp.join(''), location()) }

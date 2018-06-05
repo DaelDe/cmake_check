@@ -99,7 +99,7 @@ export class CMakeParser{
     private parser:pegjs.Parser;
 
     constructor(){
-        let grammar:Buffer = fs.readFileSync("grammar/cmake.pegjs");
+        let grammar:Buffer = fs.readFileSync("res/cmake.pegjs");
         this.parser= pegjs.generate(grammar.toString());
     }
     

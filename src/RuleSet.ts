@@ -1,39 +1,39 @@
-import {CMakeFile} from './Parser'
+import {CMakeFile} from "./Parser";
 
-export enum RuleSeverity{
+export enum RuleSeverity {
     info, // failure is informational only
-    warning // failure is indicated as warning
+    warning, // failure is indicated as warning
 }
 
 // base class for rule configuration
-export interface RuleConfig{
+export interface IRuleConfig {
     name: string;
     severity: RuleSeverity;
 }
 
-export enum RuleClass{
+export enum RuleClass {
     style,
     convention,
     readability,
     whitespace,
-    syntax
+    syntax,
 }
 
 // base class for specific rules
-export abstract class Rule{
+export abstract class Rule {
     abstract get class(): RuleClass;
     abstract get severity(): RuleSeverity;
 
-    abstract check( cmake: CMakeFile ):boolean;
+    public abstract check( cmake: CMakeFile ): boolean;
 }
 
 // logs events from rules, fails
-interface Reporting{
+interface Reporting {
     // all fails with location and description
 }
 
 // read from JSON, object with same member
-interface ExampleRuleConfig extends RuleConfig{
+interface IExampleRuleConfig extends IRuleConfig {
 }
 
 class ExampleRule extends Rule{

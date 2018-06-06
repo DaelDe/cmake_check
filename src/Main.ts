@@ -30,11 +30,14 @@ const cmakePatterns = [
 
 async function main() {
     try {
+        console.time("took");
+
         const parser: p.CMakeParser = new p.CMakeParser();
         let numfiles: number = 0;
         await crawl( ".", cmakePatterns, (f) => {
             try {
                 numfiles++;
+                // todo: detach and do async
                 const cmake: Buffer = fs.readFileSync(f);
                 const cm: p.CMakeFile = parser.parse(cmake.toString());
             } catch (error) {
@@ -53,6 +56,7 @@ async function main() {
 //        }
         // console.log(cm.commands())
 
+        console.timeEnd("took");
     } catch (error) {
         console.log("catch");
         if ( error.name === "SyntaxError" /*instanceof pegjs.parser.SyntaxError*/ ) {

@@ -11,7 +11,7 @@ export async function crawl( directory: string, patterns: RegExp[], cb: ICrawlCa
     // let directories: path.ParsedPath[] = [root];
 
     const search = await rd( root );
-    search.forEach( async (element) => {
+    for (const element of search) {
         const absPath = path.join( root, element );
         const pathObj = path.parse( absPath );
 
@@ -21,8 +21,7 @@ export async function crawl( directory: string, patterns: RegExp[], cb: ICrawlCa
 
         if (fs.statSync( absPath ).isDirectory()) {
            // console.log("crawl " + absPath );
-           console.log("crawl");
            await crawl( absPath, patterns, cb );
        }
-    });
+    }
 }

@@ -8,18 +8,25 @@ const p = new CMakeParser();
 // the location property of returned objects is removed for testing, it is created by peg.js itself
 
 describe("The Peg.js parser for the CMake language", () => {
+    describe("whitespace", () => {
+        it("line with only whitespace", () => {
+            const r: any[] = p._parse(`   `);
+            assert.lengthOf(r, 1);
+
+            assert.propertyVal(r[0], "type", "whitespace");
+            assert.propertyVal(r[0], "class", "space");
+            assert.propertyVal(r[0], "value", "   ");
+        });
+    });
+
     describe("line comments", () => {
-        it("basic line comment with trailing space and windows line ending", () => {
-            const r: any[] = p._parse(`# hello world\r\n`)
+        it("line comment without text", () => {
+            const r: any[] = p._parse(`#\n`);
             assert.lengthOf(r, 2);
 
             assert.propertyVal(r[0], "type", "comment");
             assert.propertyVal(r[0], "class", "line");
-            assert.propertyVal(r[0], "value", " hello world");
-
-            assert.propertyVal(r[1], "type", "whitespace");
-            assert.propertyVal(r[1], "class", "newline");
-            assert.propertyVal(r[1], "value", "\r\n");
+            assert.propertyVal(r[0], "value", "");
         });
 
         it("basic line comment with unix line ending", () => {
@@ -104,6 +111,17 @@ describe("The Peg.js parser for the CMake language", () => {
             assert.propertyVal(r[0].args[0], "type", "argument");
             assert.propertyVal(r[0].args[0], "class", "unquoted");
             assert.propertyVal(r[0].args[0], "name", "hello_world.c");
+        });
+
+        it("legacy unquoted argument", () => {
+            const r: any[] = p._parse(`f(-dDEF="foo")`);
+            assert.lengthOf(r, 1);
+
+            assert.propertyVal(r[0], "type", "command");
+            assert.propertyVal(r[0], "name", "f");
+            assert.propertyVal(r[0].args[0], "type", "argument");
+            assert.propertyVal(r[0].args[0], "class", "unquoted");
+            assert.propertyVal(r[0].args[0], "name", `-dDEF="foo"`);
         });
 
     });

@@ -51,13 +51,19 @@ file_element =  ci:command_invocation sp:(space*) le:line_ending?
                     }
                     if (le) elements=elements.concat(le);
                 } 
-                / bc:(bracket_comment/space)* le:line_ending 
+                / bc:(bracket_comment/space)* le:line_ending
                 {
                     if( bc.length > 0) {
                         elements.push(bc);
                     }
                     elements=elements.concat(le);
                 }
+                // lines with space only
+                / s:space
+                {
+                    elements.push(s);
+                }
+                
 // although a line may always be terminated with a newline, 
 // CMake accepts the last line in the file without newline, so should the parser
 line_ending  =  lc:line_comment nl:newline?
@@ -67,7 +73,8 @@ line_ending  =  lc:line_comment nl:newline?
                 }
                 / newline
 // A # not immediately followed by a Bracket Argument forms a line comment that runs until the end of the line:
-line_comment =  '#'[^\[][^\r\n]* 
+// also cover the empty line comment (the newline shall not be part of the comment)
+line_comment =  '#'[^\[\r\n]?[^\r\n]* 
                 { return cComment('line', text().slice(1), location()) }
 space        =  sp:[ \t]+ 
                 { return  cWhiteSpace('space', sp.join(''), location()) }
@@ -117,7 +124,7 @@ This may be used in calls to the if() command to enclose conditions
 // There are three types of arguments within Command Invocations:
 argument =  bracket_argument    {return cArg('bracket', text(), location() ) } 
             / quoted_argument   {return cArg('quoted', text(), location() ) } 
-            / unquoted_argument {return cArg('unquoted', text(), location() ) } 
+            / unquoted_argument {return cArg('unquoted', text(), location() ) }
 
 // A bracket argument, inspired by Lua long bracket syntax, encloses content between opening and closing “brackets” of the same length:
 bracket_argument =  bracket_open bracket_content bracket_close
@@ -150,11 +157,11 @@ given to the command invocation as exactly one argument.
 
 // An unquoted argument is not enclosed by any quoting syntax. 
 // It may not contain any whitespace, (, ), #, ", or \ except when escaped by a backslash:
-// the parser does not support legacy CMake code
-unquoted_argument =  ele: unquoted_element+  /* / unquoted_legacy*/ { return ele.join('').trim()}
+unquoted_argument =  ele: unquoted_element+ { return ele.join('').trim()}
 // <any character except whitespace or one of '()#"\'>
-unquoted_element  =   [^\(\)#\"\\ \t\n\r] / escape_sequence 
-// unquoted_legacy   =  <see note in text>
+// to support legacy CMake code, unquoted arguments may also contain double-quoted strings 
+//("...", possibly enclosing horizontal whitespace), and make-style variable references ($(MAKEVAR)).
+unquoted_element  =   [^\(\)#\\ \t\n\r] / escape_sequence
 
 // An escape sequence is a \ followed by one character:
 escape_sequence  =  escape_identity / escape_encoded / escape_semicolon

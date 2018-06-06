@@ -28,21 +28,23 @@ const cmakePatterns = [
     new RegExp(/^CMakeLists \([0-9]+\)\.txt$/),
 ];
 
-function main() {
+async function main() {
     try {
         const parser: p.CMakeParser = new p.CMakeParser();
-
-        crawl( ".", cmakePatterns, (f) => {
+        let numfiles: number = 0;
+        await crawl( ".", cmakePatterns, (f) => {
             try {
-                    const cmake: Buffer = fs.readFileSync(f);
-                    const cm: p.CMakeFile = parser.parse(cmake.toString());
-                } catch(error) {
+                numfiles++;
+                const cmake: Buffer = fs.readFileSync(f);
+                const cm: p.CMakeFile = parser.parse(cmake.toString());
+            } catch (error) {
                 console.log(f);
                 console.log(error);
                 process.exit(0);
             }
         } );
 
+        console.log(numfiles);
 
 //        const c = cm.command("target_link_libraries");
 //        if ( c ) {

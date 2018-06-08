@@ -20,7 +20,12 @@ maybe everything should return an array and it is flattened at some point
 
     */
     var elements=[]
-
+    // bracket count for bracket arguments, to match same count in closing bracket
+    var tmpBC = 0;
+	
+    function countConsecOccurence(str, ch){
+    	return str.lastIndexOf(ch) - str.indexOf(ch) + 1;
+    }
     function cWhiteSpace(cl, txt, loc){
         return {type:"whitespace", class:cl, value:txt, location:loc};
     }
@@ -78,7 +83,7 @@ line_comment =  '#'[^\[\r\n]?[^\r\n]*
                 { return cComment('line', text().slice(1), location()) }
 space        =  sp:[ \t]+ 
                 { return  cWhiteSpace('space', sp.join(''), location()) }
-newline      =  '\n' 
+newline "newline"  =  '\n' 
                { return cWhiteSpace('newline', text(), location()) }
                 / '\r\n'
                { return cWhiteSpace('newline', text(), location()) }
@@ -128,11 +133,17 @@ argument =  bracket_argument    {return cArg('bracket', text(), location() ) }
 
 // A bracket argument, inspired by Lua long bracket syntax, encloses content between opening and closing “brackets” of the same length:
 bracket_argument =  bracket_open bracket_content bracket_close
-bracket_open     =  '[' '='* '['
+bracket_open     =  '[' '='* '[' 
+                    { 
+                        tmpBC = countConsecOccurence(text(), "="); 
+                        return text()
+                    }
 //any text not containing a bracket_close with the same number of '=' as the bracket_open
-// this is not a perfect match, counting '=' is not implemented
-bracket_content  = [^\[\]] 
-bracket_close    =  ']' '='* ']'
+bracket_content  = c:(!bracket_close .)*  { return c }
+// bracket close should match the same amount of equal signs
+bracket_close    =  ']' eq:('='*) &{ 
+                        return eq.length == tmpBC;
+                    } ']'
 /*
 An opening bracket is written [ followed by zero or more = followed by [. The corresponding 
 closing bracket is written ] followed by the same number of = followed by ]. Brackets do not nest. 

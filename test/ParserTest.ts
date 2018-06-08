@@ -19,6 +19,21 @@ describe("The Peg.js parser for the CMake language", () => {
         });
     });
 
+    describe("bracket comments", () => {
+        it("with closing brackets inside", () => {
+            const r: any[] = p._parse(`#[=======================================================================[.rst:
+                csharp_set_windows_forms_properties([<file1> [<file2> [...]]]])
+            #]=======================================================================]
+            test()
+            `);
+            //assert.lengthOf(r, 1);
+
+            //assert.propertyVal(r[0], "type", "whitespace");
+            //assert.propertyVal(r[0], "class", "space");
+            //assert.propertyVal(r[0], "value", "   ");
+        });
+    });
+
     describe("line comments", () => {
         it("line comment without text", () => {
             const r: any[] = p._parse(`#\n`);

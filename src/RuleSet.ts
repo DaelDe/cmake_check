@@ -1,4 +1,4 @@
-import {CMakeFile} from "./Parser";
+import CMakeFile from "./Parser/CMakeFile";
 
 export enum RuleSeverity {
     info, // failure is informational only

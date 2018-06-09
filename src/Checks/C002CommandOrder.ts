@@ -1,6 +1,6 @@
 import CMakeFile from "../Parser/CMakeFile";
 import { Command } from "../Parser/Command";
-import {CheckerResultBase, IChecker, ILocation} from "./IChecker";
+import {FailedCheck, IChecker, ILocation} from "./IChecker";
 
 export enum CheckOrder {
     /** Commands must appear in given order without other commands or comments in between */
@@ -16,12 +16,6 @@ interface ICM002Config {
     order: CheckOrder;
 }
 
-class C002Result extends CheckerResultBase {
-    constructor( loc: ILocation) {
-        super(loc);
-    }
-}
-
 // tslint:disable-next-line:max-classes-per-file
 export class C002 implements IChecker {
     private config: ICM002Config;
@@ -30,7 +24,7 @@ export class C002 implements IChecker {
         this.config = c;
     }
 
-    public check(cm: CMakeFile): C002Result[] {
+    public check(cm: CMakeFile): FailedCheck[] {
         const count: Map<string, Command[]> = new Map<string, Command[]>();
         // collect the commands
 /*        cm.commands().forEach( (command: Command) => {

@@ -1,6 +1,6 @@
 import CMakeFile from "../Parser/CMakeFile";
 import { Command } from "../Parser/Command";
-import {CheckerResultBase, IChecker, ILocation} from "./IChecker";
+import {FailedCheck, IChecker, ILocation} from "./IChecker";
 
 interface ICommandCheck {
     name: string;
@@ -12,12 +12,6 @@ interface ICM001Config {
     commands: ICommandCheck[];
 }
 
-class C001Result extends CheckerResultBase {
-    constructor( loc: ILocation) {
-        super(loc);
-    }
-}
-
 // tslint:disable-next-line:max-classes-per-file
 export class C001 implements IChecker {
     private config: ICM001Config;
@@ -26,7 +20,7 @@ export class C001 implements IChecker {
         this.config = c;
     }
 
-    public check(cm: CMakeFile): C001Result[] {
+    public check(cm: CMakeFile): FailedCheck[] {
         const count: Map<string, Command[]> = new Map<string, Command[]>();
         // collect the commands
         cm.commands().forEach( (command: Command) => {
@@ -41,24 +35,26 @@ export class C001 implements IChecker {
             });
         });
 
-//        console.log(count);
-//        console.log(this.config.commands);
         // check for occurences
+        const result: FailedCheck[] = [];
         this.config.commands.forEach( (com: ICommandCheck) => {
             if (count.has(com.name)) {
                 // exists!
                 if ("occurences" in com) {
                     // check occurences
-                    if (com.occurences !== (count.get(com.name) as Command[]).length) {
-                        console.log(`false - ncount`);
+                    const actual = (count.get(com.name) as Command[]).length;
+                    if (com.occurences !== actual) {
+                        result.push(new FailedCheck(undefined, com.name
+                            , {occurences: com.occurences}, {occurences: actual}));
                     }
                 }
             } else {
                 // does not exist
-                // if occurences is !=0
-                console.log("false - nexist");
+                if (!("occurences" in com) || com.occurences as number > 0) {
+                    result.push(new FailedCheck(undefined, com.name, {occurences: 0}, {occurences: com.occurences}));
+                }
             }
         });
-        return [];
+        return result;
     }
 }

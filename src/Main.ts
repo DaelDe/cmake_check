@@ -52,7 +52,7 @@ const rc: RuleChecker = new RuleChecker(logger);
 
 async function main() {
     try {
-        console.time("took");
+        logger.profile("took");
 
         try {
             opt.input.forEach( (element: string) => {
@@ -69,7 +69,7 @@ async function main() {
         } catch (e) {
             logger.error(e.message);
         }
-        console.timeEnd("took");
+        logger.profile("took");
     } catch (error) {
         console.error(error);
     }

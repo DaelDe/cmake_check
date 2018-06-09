@@ -1,15 +1,5 @@
 import { Command } from "./Command";
 
-export interface Cursor{
-    offset: number;
-    line: number;
-    column: number;
-}
-export interface Location{
-    start: Cursor;
-    end: Cursor;
-}
-
 export default class CMakeFile {
     private cmake: any[];
     private raw: string;

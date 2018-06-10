@@ -37,7 +37,7 @@ export class Command {
             if ( el.type === "argument") {
                 return el;
             }
-        })
+        });
     }
 
     get location(): Location {

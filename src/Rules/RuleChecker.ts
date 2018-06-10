@@ -4,6 +4,7 @@ import {Logger} from "winston";
 import * as test from "../Checks/C001CommandExistence";
 import CMakeFile from "../Parser/CMakeFile";
 import * as p from "../Parser/CMakeParser";
+import {Rule} from "../Rules/Rule";
 
 const rf = promisify(fs.readFile);
 
@@ -26,10 +27,12 @@ export default class RuleChecker {
         try {
             const c = await rf(file);
             const cm: CMakeFile = this.parser.parse(c.toString());
-            const ch = new test.C001({ commands:
-                [{name: "add_library", occurences: 1}, {name: "target_include_directories"}],
-            });
-            console.log(ch.check(cm));
+
+            const rule = new Rule("CM001", "commands exist");
+            rule.addCheck( new test.C001({ commands:
+                [{name: "add_library", occurences: 0}, {name: "target_include_directories"}],
+            }));
+            console.log(rule.check(cm));
     // iterate through the rules and check
     // rule results go to winston
         } catch (error) {

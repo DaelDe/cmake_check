@@ -19,8 +19,8 @@ const transports = {
 
 const logger = log.createLogger({
     format: log.format.combine( log.format.simple(), log.format.colorize() ),
-    levels: log.config.npm.levels,
     level: "info",
+    levels: log.config.npm.levels,
     transports: [transports.console],
 });
 

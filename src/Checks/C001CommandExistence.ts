@@ -44,14 +44,19 @@ export class C001 implements IChecker {
                     // check occurences
                     const actual = (count.get(com.name) as Command[]).length;
                     if (com.occurences !== actual) {
-                        result.push(new FailedCheck(undefined, com.name
+                        const message: string =
+                            `expected ${com.occurences} occurences of ${com.name}, but got ${actual}` ;
+                        result.push(new FailedCheck(undefined, com.name, message
                             , {occurences: com.occurences}, {occurences: actual}));
                     }
                 }
             } else {
                 // does not exist
                 if (!("occurences" in com) || com.occurences as number > 0) {
-                    result.push(new FailedCheck(undefined, com.name, {occurences: 0}, {occurences: com.occurences}));
+                    const message: string =
+                        `expected calls to ${com.name}`;
+                    result.push(new FailedCheck(undefined, com.name, message
+                        , {occurences: 0}, {occurences: com.occurences}));
                 }
             }
         });

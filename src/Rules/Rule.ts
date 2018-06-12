@@ -1,5 +1,5 @@
 import * as checks from "../Checks/IChecker";
-import CMakeFile from "../Parser/CMakeFile";
+import {CMakeFile} from "../Parser/CMakeFile";
 
 export class Rule {
     private checks: checks.IChecker[] = [];

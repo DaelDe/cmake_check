@@ -1,13 +1,14 @@
 import { Command } from "./Command";
 
-export default class CMakeFile {
-    private cmake: any[];
-    private raw: string;
+export enum FileType {
+    CMakeModule,
+    TargetCMakeLists,
+    FolderCMakeLists,
+    Unknown,
+}
 
-    constructor( cm: any[], raw: string ) {
-        this.cmake = cm;
-        this.raw = raw;
-    }
+export class CMakeFile {
+    constructor( private cmake: any[], private raw: string, public filename: string ) {}
 
     public unparsed(): string {
         return this.raw;
@@ -21,9 +22,24 @@ export default class CMakeFile {
         return this.cmake.length;
     }
 
+    public type(): FileType {
+        if (this.command("add_library") ||
+            this.command("add_executable") ) {
+            return FileType.TargetCMakeLists;
+        }
+
+        return FileType.Unknown;
+    }
+
+    /**
+     * Returns the list of commands, ordered by their appearance.
+     * Only top-level commands are considered (e.g. not commands called in functions).
+     */
     public commands(): Command[] {
         return this.cmake.filter( (el) => {
             return el.type === "command";
+        }).map( (ele) => {
+            return new Command(ele);
         });
     }
 
@@ -34,5 +50,9 @@ export default class CMakeFile {
                 },
             ),
         );
+    }
+
+    get numLines(): number {
+        return this.raw.split(/\r\n|\r|\n/).length;
     }
 }

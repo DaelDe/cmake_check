@@ -1,4 +1,4 @@
-import CMakeFile from "../Parser/CMakeFile";
+import {CMakeFile} from "../Parser/CMakeFile";
 import { Command } from "../Parser/Command";
 import {FailedCheck, IChecker, ILocation} from "./IChecker";
 

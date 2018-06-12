@@ -1,6 +1,6 @@
-import { expect, assert } from "chai";
+import { assert, expect } from "chai";
 import "mocha";
-import {CMakeParser} from "../src/Parser";
+import {CMakeParser} from "../src/Parser/CMakeParser";
 
 const hello = () => "Hello world!";
 const p = new CMakeParser();

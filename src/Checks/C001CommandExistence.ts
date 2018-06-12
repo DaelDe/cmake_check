@@ -1,5 +1,5 @@
-import CMakeFile from "../Parser/CMakeFile";
-import { Command } from "../Parser/Command";
+import {CMakeFile} from "../Parser/CMakeFile";
+import {Command} from "../Parser/Command";
 import {FailedCheck, IChecker, ILocation} from "./IChecker";
 
 interface ICommandCheck {
@@ -42,12 +42,23 @@ export class C001 implements IChecker {
                 // exists!
                 if ("occurences" in com) {
                     // check occurences
-                    const actual = (count.get(com.name) as Command[]).length;
-                    if (com.occurences !== actual) {
+                    const actual = count.get(com.name) as Command[];
+                    if ( "occurences" in com && com.occurences !== actual.length) {
+                        let loc: ILocation|undefined;
+                        if (com.occurences as number < actual.length) {
+                            // location of the warning is the first command that violates
+                            loc = actual[com.occurences as number].location;
+                        } else if (com.occurences as number > actual.length) {
+                            // location of the warning is end of file because more matches have been expected
+                            loc = {start: {offset: 0, line: cm.numLines, column: 0},
+                                   end: {offset: 0, line: cm.numLines, column: 0}};
+                        }
+
+                        //console.log(actual[com.occurences as number]);
                         const message: string =
-                            `expected ${com.occurences} occurences of ${com.name}, but got ${actual}` ;
-                        result.push(new FailedCheck(undefined, com.name, message
-                            , {occurences: com.occurences}, {occurences: actual}));
+                            `expected ${com.occurences} occurences of ${com.name}, but got ${actual.length}` ;
+                        result.push(new FailedCheck(loc, com.name, message
+                            , {occurences: com.occurences}, {occurences: actual.length}));
                     }
                 }
             } else {

@@ -1,3 +1,4 @@
+import {ILocation} from "../Checks/IChecker";
 
 enum ArgumentType {
     quoted,
@@ -5,7 +6,7 @@ enum ArgumentType {
     bracket,
 }
 
-export interface Argument {
+export interface IArgument {
     class: ArgumentType;
     name: string;
     location: Location;
@@ -22,7 +23,7 @@ export class Command {
         return this.c.name;
     }
 
-    public argument(name: string): Argument|undefined {
+    public argument(name: string): IArgument|undefined {
         return this.c.args.find( (el: any) => {
             if ( el.type === "argument" && el.name === name ) {
                 return el;
@@ -32,7 +33,7 @@ export class Command {
         });
     }
 
-    get arguments(): Argument[] {
+    get arguments(): IArgument[] {
         return this.c.args.filter( (el: any) => {
             if ( el.type === "argument") {
                 return el;
@@ -40,7 +41,7 @@ export class Command {
         });
     }
 
-    get location(): Location {
-        return this.c.location;
+    get location(): ILocation {
+        return this.c.loc;
     }
 }

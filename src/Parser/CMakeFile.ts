@@ -43,13 +43,20 @@ export class CMakeFile {
         });
     }
 
+    /**
+     * Returns the first occurence of a command
+     * @param name command name to search
+     */
     public command(name: string): Command|undefined {
-        return new Command(
-                this.cmake.find( (el: any) => {
-                    return ( el.type === "command" && el.name === name );
-                },
-            ),
-        );
+        const ret = this.cmake.find( (el: any) => {
+            return ( el.type === "command" && el.name === name );
+        });
+
+        if (ret) {
+            return new Command(ret);
+        } else {
+            return undefined;
+        }
     }
 
     get numLines(): number {

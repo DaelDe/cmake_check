@@ -1,5 +1,6 @@
 import {Logger} from "winston";
 import {FailedCheck} from "../Checks/IChecker";
+import * as conf from "../Configuration";
 import {CMakeFile, FileType} from "../Parser/CMakeFile";
 import {Rule} from "./Rule";
 
@@ -9,10 +10,10 @@ export class RuleSet {
     private rules: Rule[] = [];
     private results: string[] = [];
 
-    constructor(public appliesTo: FileType, private logger: Logger) {}
-
-    public addRule(r: Rule): void {
-        this.rules.push(r);
+    constructor(private config: conf.IRuleSet, private logger: Logger) {
+        this.config.rules.forEach( (rule: conf.IRule) => {
+            this.rules.push( new Rule(rule) );
+        });
     }
 
     /**
@@ -20,8 +21,11 @@ export class RuleSet {
      * @param cm the CMakeFile to check
      */
     public check(cm: CMakeFile): string[] {
-        if (!cm.type || this.appliesTo !== cm.type()) {
-            this.logger.warn(`${cm.filename} is not a ${this.appliesTo.toString()}`);
+        // only apply the rules when the file type matches
+//        console.log(FileType[cm.type()]);
+//        console.log(this.config.appliesTo);
+        if (!cm.type || this.config.appliesTo !== FileType[cm.type()] ) {
+            this.logger.warn(`${cm.filename} is not a ${this.config.appliesTo.toString()}`);
             return [];
         }
 

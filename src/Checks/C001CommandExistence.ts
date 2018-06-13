@@ -2,13 +2,13 @@ import {CMakeFile} from "../Parser/CMakeFile";
 import {Command} from "../Parser/Command";
 import {FailedCheck, IChecker, ILocation} from "./IChecker";
 
-interface ICommandCheck {
+export interface ICommandCheck {
     name: string;
     /** number of expected occurences of command; not checked if not available */
     occurences?: number;
 }
 
-interface ICM001Config {
+export interface ICM001Config {
     commands: ICommandCheck[];
 }
 

@@ -30,6 +30,12 @@ const opt = yargs
     .config().alias("config", "c")
     .demandOption(["config", "input"], "Please provide a configuration and input")
     .help().alias("help", "h")
+    .option("o", {
+        alias: "out",
+        demandOption: true,
+        describe: "output file name",
+        type: "string",
+    })
     .argv;
 
 if (opt.v === 1) {
@@ -38,17 +44,26 @@ if (opt.v === 1) {
     transports.console.level = "debug";
 }
 
-logger.debug(opt);
+const ruleLogger = log.createLogger({
+    format: log.format.combine(log.format.simple()),
+    level: "warn",
+    levels: log.config.npm.levels,
+    transports: [new log.transports.File({
+        filename: opt.out,
+        options: {flags: "w"},
+        level: "info",
+    })],
+});
 
 const cmakePatterns = [
     new RegExp(/^CMakeLists\.txt$/),
-    new RegExp(/.*\.cmake$/),
-    new RegExp(/^CMakeLists \([0-9]+\)\.txt$/),
+    // new RegExp(/.*\.cmake$/), // CMake modules are not yet supported
+    new RegExp(/^CMakeLists\w*\([0-9]+\)\.txt$/),
 ];
 
-const crawlOpts = { exclude:[".svn", ".git"] };
+const crawlOpts = { exclude: [".svn", ".git"] };
 
-const rc: RuleChecker = new RuleChecker(logger);
+const rc: RuleChecker = new RuleChecker(logger, ruleLogger, opt.cRuleSets);
 
 async function main() {
     try {
@@ -61,7 +76,7 @@ async function main() {
                     // call the parser
                     rc.check(element);
                 } else if (stats.isDirectory) {
-                    /*store promises*/ crawl( element, cmakePatterns, crawlOpts, (f) => {
+                    /* TBD: store promises*/ crawl( element, cmakePatterns, crawlOpts, (f) => {
                         rc.check(f);
                     });
                 }
@@ -71,7 +86,7 @@ async function main() {
         }
         logger.profile("took");
     } catch (error) {
-        console.error(error);
+        logger.error(error.message);
     }
 }
 

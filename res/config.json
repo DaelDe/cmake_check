@@ -1,3 +1,47 @@
 {
-    "rules": 3
+  "cRuleSets": [
+    {
+      "appliesTo": "TargetCMakeLists",
+      "rules": [
+        {
+          "id": "CM001",
+          "name:": "name of rule",
+          "checks": [
+            {
+              "id": "C001",
+              "config": {
+                "commands": [
+                  {
+                    "name": "add_library",
+                    "occurences": 1
+                  },
+                  {
+                    "name": "target_link_libraries",
+                    "occurences": 1
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "CM002",
+          "name": "test",
+          "checks": [
+            {
+              "id": "C001",
+              "config": {
+                "commands": [
+                  {
+                    "name": "holladri",
+                    "occurences": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
 }

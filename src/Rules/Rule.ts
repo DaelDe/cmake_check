@@ -1,22 +1,25 @@
+import * as test from "../Checks/C001CommandExistence";
 import * as checks from "../Checks/IChecker";
+import * as conf from "../Configuration";
 import {CMakeFile} from "../Parser/CMakeFile";
 
 export class Rule {
     private checks: checks.IChecker[] = [];
     private results: checks.FailedCheck[] = [];
 
-    constructor( private ID: string, private NAME: string ) {}
+    constructor( private config: conf.IRule ) {
+        this.config.checks.forEach( (check: conf.ICheck) => {
+            this.checks.push(new test.C001(check.config as test.ICM001Config));
+    // TODO: create tests from string, factory
+        });
+    }
 
     public get id() {
-        return this.ID;
+        return this.config.id;
     }
 
     public get name() {
-        return this.NAME;
-    }
-
-    public addCheck(c: checks.IChecker): void {
-        this.checks.push(c);
+        return this.config.name;
     }
 
     public check(cm: CMakeFile): checks.FailedCheck[] {

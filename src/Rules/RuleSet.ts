@@ -19,14 +19,15 @@ export class RuleSet {
     /**
      *
      * @param cm the CMakeFile to check
+     * @returns undefined if the ruleset does not apply to the given file type,
+     *          an empty array if the file is warning-free, a list of warnings otherwise
      */
-    public check(cm: CMakeFile): string[] {
+    public check(cm: CMakeFile): string[]|undefined {
         // only apply the rules when the file type matches
 //        console.log(FileType[cm.type()]);
 //        console.log(this.config.appliesTo);
         if (!cm.type || this.config.appliesTo !== FileType[cm.type()] ) {
-            this.logger.warn(`${cm.filename} is not a ${this.config.appliesTo.toString()}`);
-            return [];
+            return undefined;
         }
 
         let  results: string[] = [];

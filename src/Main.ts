@@ -13,13 +13,13 @@ tasks
 */
 
 const transports = {
-    console: new log.transports.Console({ level: "info" }),
+    console: new log.transports.Console({}),
 //    file: new log.transports.File({ filename: 'combined.log', level: 'error' })
   };
 
 const logger = log.createLogger({
     format: log.format.combine( log.format.simple(), log.format.colorize() ),
-    level: "info",
+    level: "warn",
     levels: log.config.npm.levels,
     transports: [transports.console],
 });
@@ -39,26 +39,28 @@ const opt = yargs
     .argv;
 
 if (opt.v === 1) {
-    transports.console.level = "verbose";
+    transports.console.level = "info";
 } else if (opt.v >= 2) {
+    transports.console.level = "verbose";
+} else if (opt.v >= 3) {
     transports.console.level = "debug";
 }
 
 const ruleLogger = log.createLogger({
     format: log.format.combine(log.format.simple()),
-    level: "warn",
+    level: "info",
     levels: log.config.npm.levels,
     transports: [new log.transports.File({
         filename: opt.out,
-        options: {flags: "w"},
         level: "info",
+        options: {flags: "w"},
     })],
 });
 
 const cmakePatterns = [
     new RegExp(/^CMakeLists\.txt$/),
     // new RegExp(/.*\.cmake$/), // CMake modules are not yet supported
-    new RegExp(/^CMakeLists\w*\([0-9]+\)\.txt$/),
+    new RegExp(/^CMakeLists\s*\([0-9]+\)\.txt$/),
 ];
 
 const crawlOpts = { exclude: [".svn", ".git"] };
@@ -70,17 +72,20 @@ async function main() {
         logger.profile("took");
 
         try {
-            opt.input.forEach( (element: string) => {
+            await Promise.all( opt.input.map( async (element: string) => {
                 const stats = fs.statSync(element);
                 if (stats.isFile()) {
                     // call the parser
-                    rc.check(element);
+                    logger.info(`Checking ${element}`);
+                    await rc.check(element);
                 } else if (stats.isDirectory) {
-                    /* TBD: store promises*/ crawl( element, cmakePatterns, crawlOpts, (f) => {
-                        rc.check(f);
+                    logger.info(`Checking files in ${element}`);
+                    await crawl( element, cmakePatterns, crawlOpts, async (f) => {
+                        await rc.check(f);
                     });
                 }
-            });
+            }));
+            rc.logSummary();
         } catch (e) {
             logger.error(e.message);
         }

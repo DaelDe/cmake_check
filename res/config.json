@@ -11,31 +11,40 @@
               "id": "C001",
               "config": {
                 "commands": [
-                  {
-                    "name": "add_library",
-                    "occurences": 1
-                  },
-                  {
-                    "name": "target_link_libraries",
-                    "occurences": 1
-                  }
+                  { "name": "add_library", "occurences": 1 },
+                  { "name": "target_link_libraries", "occurences": 1 }
                 ]
               }
             }
           ]
         },
         {
-          "id": "CM002",
+          "id": "CM003",
           "name": "test",
           "checks": [
             {
               "id": "C001",
               "config": {
                 "commands": [
-                  {
-                    "name": "holladri",
-                    "occurences": 0
-                  }
+                  { "name": "set", "occurences": 0 }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "CM005",
+          "name": "Forbidden CMake Commands",
+          "checks": [
+            {
+              "id": "C001",
+              "config": {
+                "commands": [
+                  {"name": "add_compile_options","occurences": 0 },
+                  {"name": "include_directories","occurences": 0 },
+                  {"name": "link_directories","occurences": 0 },
+                  {"name": "link_libraries","occurences": 0 },
+                  {"name": "target_compile_options","occurences": 0 }
                 ]
               }
             }

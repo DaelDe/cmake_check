@@ -25,7 +25,9 @@ export class C001 implements IChecker {
         // collect the commands
         cm.commands().forEach( (command: Command) => {
             this.config.commands.forEach( (com: ICommandCheck) => {
-                if ( com.name === command.name ) {
+                const comRegex = new RegExp(com.name);
+
+                if ( comRegex.test(command.name) ) {
                     if (count.has(com.name)) {
                         (count.get(com.name) as Command[]).push(command);
                     } else {
@@ -50,11 +52,10 @@ export class C001 implements IChecker {
                             loc = actual[com.occurences as number].location;
                         } else if (com.occurences as number > actual.length) {
                             // location of the warning is end of file because more matches have been expected
-                            loc = {start: {offset: 0, line: cm.numLines, column: 0},
-                                   end: {offset: 0, line: cm.numLines, column: 0}};
+                            loc = {end: {offset: 0, line: cm.numLines, column: 0},
+                                   start: {offset: 0, line: cm.numLines, column: 0}};
                         }
 
-                        //console.log(actual[com.occurences as number]);
                         const message: string =
                             `expected ${com.occurences} occurences of ${com.name}, but got ${actual.length}` ;
                         result.push(new FailedCheck(loc, com.name, message

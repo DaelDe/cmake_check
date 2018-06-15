@@ -36,6 +36,10 @@ const opt = yargs
         describe: "output file name",
         type: "string",
     })
+    .option("write-json", {
+        hidden: true,
+        type: "boolean",
+    })
     .argv;
 
 if (opt.v === 1) {
@@ -65,7 +69,10 @@ const cmakePatterns = [
 
 const crawlOpts = { exclude: [".svn", ".git"] };
 
-const rc: RuleChecker = new RuleChecker(logger, ruleLogger, opt.cRuleSets);
+const rc: RuleChecker = new RuleChecker(logger, ruleLogger, {
+    rulesets: opt.cRuleSets,
+    writeJSON: opt["write-json"],
+});
 
 async function main() {
     try {

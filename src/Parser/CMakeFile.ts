@@ -1,3 +1,5 @@
+import * as fs from "fs";
+import {promisify} from "util";
 import { Command } from "./Command";
 
 export enum FileType {
@@ -29,6 +31,11 @@ export class CMakeFile {
         }
 
         return FileType.Unknown;
+    }
+
+    public async writeJSON() {
+        await promisify(fs.writeFile)
+            (this.filename + "_cmake_style.json" , JSON.stringify(this.cmake, null, 3));
     }
 
     /**

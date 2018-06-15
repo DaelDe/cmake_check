@@ -17,15 +17,25 @@ class Statistics {
     public dirtyFiles: number = 0;
 }
 
+interface IOptions {
+    rulesets: conf.IRuleSet[];
+    writeJSON: boolean;
+}
+
 // tslint:disable-next-line:max-classes-per-file
 export default class RuleChecker {
     private parser: p.CMakeParser;
     private stats: Statistics;
+    private rulesets: RuleSet[] = [];
 
-    constructor(private logger: Logger, private ruleLogger: Logger, private rulesets: conf.IRuleSet[]) {
+    constructor(private logger: Logger, private ruleLogger: Logger, private config: IOptions) {
 // should use its own, logger
         this.parser = new p.CMakeParser();
         this.stats = new Statistics();
+
+        this.config.rulesets.forEach( (set) => {
+            this.rulesets.push(new RuleSet(set, this.logger));
+        });
     }
 
     public async check(file: string) {
@@ -33,11 +43,13 @@ export default class RuleChecker {
             const c = await rf(file);
             this.stats.checkedFiles++;
             const cm: CMakeFile = this.parser.parse(c.toString(), file);
+            if (this.config.writeJSON) {
+                cm.writeJSON();
+            }
             let results: string[]|undefined;
 
             this.rulesets.forEach( (set) => {
-                const rs = new RuleSet(set, this.logger);
-                const result = rs.check(cm);
+                const result = set.check(cm);
                 if (result) {
                     if (!results) {
                         results = [];

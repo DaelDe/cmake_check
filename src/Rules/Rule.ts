@@ -10,7 +10,6 @@ export class Rule {
     constructor( private config: conf.IRule ) {
         this.config.checks.forEach( (check: conf.ICheck) => {
             this.checks.push(new test.C001(check.config as test.ICM001Config));
-    // TODO: create tests from string, factory
         });
     }
 
@@ -25,8 +24,6 @@ export class Rule {
     public check(cm: CMakeFile): checks.FailedCheck[] {
         this.results = [];
         this.checks.forEach( (c) => {
-            // handle results
-            // consider to build a message in the check
             this.results = this.results.concat(c.check(cm));
         });
         return this.results;

@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import jsonata from "jsonata";
 import {promisify} from "util";
 import { Command } from "./Command";
 
@@ -12,8 +13,12 @@ export enum FileType {
 export class CMakeFile {
     constructor( private cmake: any[], private raw: string, public filename: string ) {}
 
-    public unparsed(): string {
+    get unparsed(): string {
         return this.raw;
+    }
+
+    get obj(): any[] {
+        return this.cmake;
     }
 
     public toString(): string {
@@ -48,6 +53,7 @@ export class CMakeFile {
         }).map( (ele) => {
             return new Command(ele);
         });
+
     }
 
     /**
@@ -68,5 +74,13 @@ export class CMakeFile {
 
     get numLines(): number {
         return this.raw.split(/\r\n|\r|\n/).length;
+    }
+
+    public compile_query(expr: string): jsonata.Expression {
+        return jsonata(expr);
+    }
+
+    public query(expr: string): any {
+        return this.compile_query(expr).evaluate(this.cmake);
     }
 }

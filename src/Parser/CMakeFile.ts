@@ -1,17 +1,17 @@
 import * as fs from "fs";
-import jsonata from "jsonata";
-import {promisify} from "util";
+import * as path from "path";
+import { promisify } from "util";
 import { Command } from "./Command";
 
 export enum FileType {
     CMakeModule,
     TargetCMakeLists,
-    FolderCMakeLists,
+    CMakeLists,
     Unknown,
 }
 
 export class CMakeFile {
-    constructor( private cmake: any[], private raw: string, public filename: string ) {}
+    constructor(private cmake: any[], private raw: string, public filename: string) { }
 
     get unparsed(): string {
         return this.raw;
@@ -30,27 +30,31 @@ export class CMakeFile {
     }
 
     public type(): FileType {
-        if (this.command("add_library") ||
-            this.command("add_executable") ) {
-            return FileType.TargetCMakeLists;
-        }
+        if ( new RegExp(/^CMakeLists.*\.txt$/).test(path.parse(this.filename).base)) {
+                if (this.commands(/^add_library|add_executable$/).length > 0) {
+                    return FileType.TargetCMakeLists;
+                }
+                return FileType.CMakeLists;
+            }
+            // check .cmake extension for modules
 
         return FileType.Unknown;
     }
 
     public async writeJSON() {
         await promisify(fs.writeFile)
-            (this.filename + "_cmake_style.json" , JSON.stringify(this.cmake, null, 3));
+            (this.filename + "_cmake_style.json", JSON.stringify(this.cmake, null, 3));
     }
 
     /**
      * Returns the list of commands, ordered by their appearance.
      * Only top-level commands are considered (e.g. not commands called in functions).
+     * @param filter Only returns commands whose names match.
      */
-    public commands(): Command[] {
-        return this.cmake.filter( (el) => {
-            return el.type === "command";
-        }).map( (ele) => {
+    public commands(filter: RegExp = /.*/): Command[] {
+        return this.cmake.filter((el) => {
+            return (el.type === "command" && filter.test(el.name));
+        }).map((ele) => {
             return new Command(ele);
         });
 
@@ -60,9 +64,9 @@ export class CMakeFile {
      * Returns the first occurence of a command
      * @param name command name to search
      */
-    public command(name: string): Command|undefined {
-        const ret = this.cmake.find( (el: any) => {
-            return ( el.type === "command" && el.name === name );
+    public command(name: string): Command | undefined {
+        const ret = this.cmake.find((el: any) => {
+            return (el.type === "command" && el.name === name);
         });
 
         if (ret) {
@@ -76,11 +80,4 @@ export class CMakeFile {
         return this.raw.split(/\r\n|\r|\n/).length;
     }
 
-    public compile_query(expr: string): jsonata.Expression {
-        return jsonata(expr);
-    }
-
-    public query(expr: string): any {
-        return this.compile_query(expr).evaluate(this.cmake);
-    }
 }

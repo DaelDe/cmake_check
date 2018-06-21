@@ -1,5 +1,4 @@
-import * as test from "../Checks/C001CommandExistence";
-import * as checks from "../Checks/IChecker";
+import * as checks from "../Checks/Checks";
 import * as conf from "../Configuration";
 import {CMakeFile} from "../Parser/CMakeFile";
 
@@ -9,7 +8,7 @@ export class Rule {
 
     constructor( private config: conf.IRule ) {
         this.config.checks.forEach( (check: conf.ICheck) => {
-            this.checks.push(new test.C001(check.config as test.ICM001Config));
+            this.checks.push(checks.createCheck(check.id, check.config));
         });
     }
 

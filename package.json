@@ -5,9 +5,10 @@
   "main": "main.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "package": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin lib/Main.js"
   },
-  "author": "",
+  "author": "Daniel Graupner",
   "license": "ISC",
   "devDependencies": {
     "@types/chai": "^4.1.3",

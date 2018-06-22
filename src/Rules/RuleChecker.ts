@@ -2,11 +2,11 @@ import * as fs from "fs";
 import { promisify } from "util";
 import {Logger} from "winston";
 import * as test from "../Checks/C001CommandExistence";
+import {FailedCheck} from "../Checks/IChecker";
 import * as conf from "../Configuration";
 import {CMakeFile} from "../Parser/CMakeFile";
 import * as p from "../Parser/CMakeParser";
 import {Rule} from "../Rules/Rule";
-import {FileType, RuleSet} from "../Rules/RuleSet";
 
 const rf = promisify(fs.readFile);
 
@@ -18,7 +18,7 @@ class Statistics {
 }
 
 interface IOptions {
-    rulesets: conf.IRuleSet[];
+    rules: conf.IRule[];
     writeJSON: boolean;
 }
 
@@ -26,15 +26,15 @@ interface IOptions {
 export default class RuleChecker {
     private parser: p.CMakeParser;
     private stats: Statistics;
-    private rulesets: RuleSet[] = [];
+    private rules: Rule[] = [];
 
     constructor(private logger: Logger, private ruleLogger: Logger, private config: IOptions) {
 // should use its own, logger
         this.parser = new p.CMakeParser();
         this.stats = new Statistics();
 
-        this.config.rulesets.forEach( (set) => {
-            this.rulesets.push(new RuleSet(set, this.logger));
+        this.config.rules.forEach( (rule) => {
+            this.rules.push(new Rule(rule));
         });
     }
 
@@ -48,13 +48,13 @@ export default class RuleChecker {
             }
             let results: string[]|undefined;
 
-            this.rulesets.forEach( (set) => {
-                const result = set.check(cm);
+            this.rules.forEach( (rule) => {
+                const result = rule.check(cm);
                 if (result) {
                     if (!results) {
                         results = [];
                     }
-                    results = results.concat(result);
+                    results = results.concat(this.formatMessages(cm, result, rule));
                 }
             });
 
@@ -89,4 +89,19 @@ export default class RuleChecker {
         this.logger.info(`${this.stats.dirtyFiles} files have warnings`);
         this.logger.info(`${this.stats.ignoredFiles} files are ignored`);
     }
+
+    private formatMessages(cm: CMakeFile, results: FailedCheck[], r: Rule): string[] {
+        const result: string[] = [];
+        results.forEach( (fc: FailedCheck) => {
+            let line: number = -1;
+            if (fc.location) {
+                line = fc.location.start.line;
+            }
+            result.push(
+                `${cm.filename} (${line}): ${r.id} - ${fc.message}`,
+            );
+        });
+        return result;
+    }
+
 }

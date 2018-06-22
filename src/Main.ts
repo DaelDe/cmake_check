@@ -70,7 +70,7 @@ const cmakePatterns = [
 const crawlOpts = { exclude: [".svn", ".git"] };
 
 const rc: RuleChecker = new RuleChecker(logger, ruleLogger, {
-    rulesets: opt.cRuleSets,
+    rules: opt.cRules,
     writeJSON: opt["write-json"],
 });
 

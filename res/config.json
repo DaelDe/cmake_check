@@ -1,129 +1,119 @@
 {
-  "cRuleSets": [
+  "cRules": [
     {
+      "id": "Whitelist",
       "appliesTo": "CMakeLists",
-      "rules": [
+      "name:": "Allowed CMake commands",
+      "checks": [
         {
-          "id": "Whitelist",
-          "name:": "Allowed CMake commands",
-          "checks": [
-            {
-              "id": "C003",
-              "config": {
-                "commands": [
-                  "add_executable",
-                    "add_custom_target",
-                    "add_custom_command",
-                  "add_definitions",
-                  "add_library",
-                  "add_subdirectory",
-                  "add_test",
-                    "cmake_dependent_option",
-                  "cmake_minimum_required",
-                    "cmake_parse_arguments",
-                    "cmake_policy",
-                    "configure_file",
-                  "else",
-                  "elseif",
-                    "enable_language",
-                  "enable_testing",
-                    "endforeach",
-                    "endfunction",
-                  "endif",
-                  "file",
-                    "find_package",
-                    "function",
-                    "foreach",
-                    "get_filename_component",
-                    "get_target_property",
-                  "group_sources",
-                  "include",
-                    "include_directories",
-                  "if",
-                  "install",
-                    "list",
-                    "link_directories",
-                    "macro",
-                    "endmacro",
-                  "message",
-                    "option",
-                  "project",
-                  "set",
-                    "set_property",
-                  "set_target_properties",
-                  "return",
-                  "source_group",
-                    "string",
-                  "target_compile_definitions",
-                  "target_compile_features",
-                  "target_compile_options",
-                  "target_include_directories",
-                  "target_link_libraries",
-                  "target_sources",
-                    "unset",
-                    "variable_watch",
-
-                  "eb_target_add_resources",
-                  "eb_declare_component",
-                  "eb_target_add_information",
-                  "eb_install_via_interface",
-                  "eb_export_interface",
-                  "eb_export_interfaces_end",
-                  "eb_import_interfaces",
-                  "eb_target_self_contained",
-                  "eb_set_warning_level",
-                  "eb_add_test",
-                  "eb_target_add_tracing",
-                  "eb_declare_atf_component",
-                  "eb_testing_enabled",
-                  "eb_add_reqm2",
-                  "eb_generate_datapool",
-                  "eb_target_add_profiling",
-                  "eb_install_set_interface_headers_filter",
-                  "eb_install_library",
-                  "eb_add_library",
-                  "eb_set_folder",
-                  "eb_create_release_target_script",
-                  "mr_install_resource_file",
-                  "mr_install_resource_files",
-                  "eb_install",
-                  "appendincludefolder",
-                  "eb_release_create_copy_script",
-                  "eb_separate_symbols",
-                  "eb_configure_natify_paths",
-                  "ctest_addtestplan",
-                  "luamaptest_configure_signalmapper_cfg"
-                ]
-              }
-            }
-          ]
+          "id": "C003",
+          "config": {
+            "commands": [
+              "add_executable",
+              "add_custom_target",
+              "add_custom_command",
+              "add_definitions",
+              "add_library",
+              "add_subdirectory",
+              "add_test",
+              "cmake_dependent_option",
+              "cmake_minimum_required",
+              "cmake_parse_arguments",
+              "cmake_policy",
+              "configure_file",
+              "else",
+              "elseif",
+              "enable_language",
+              "enable_testing",
+              "endforeach",
+              "endfunction",
+              "endif",
+              "file",
+              "find_package",
+              "function",
+              "foreach",
+              "get_filename_component",
+              "get_target_property",
+              "group_sources",
+              "include",
+              "include_directories",
+              "if",
+              "install",
+              "list",
+              "link_directories",
+              "macro",
+              "endmacro",
+              "message",
+              "option",
+              "project",
+              "set",
+              "set_property",
+              "set_target_properties",
+              "return",
+              "source_group",
+              "string",
+              "target_compile_definitions",
+              "target_compile_features",
+              "target_compile_options",
+              "target_include_directories",
+              "target_link_libraries",
+              "target_sources",
+              "unset",
+              "variable_watch",
+              "eb_target_add_resources",
+              "eb_declare_component",
+              "eb_target_add_information",
+              "eb_install_via_interface",
+              "eb_export_interface",
+              "eb_export_interfaces_end",
+              "eb_import_interfaces",
+              "eb_target_self_contained",
+              "eb_set_warning_level",
+              "eb_add_test",
+              "eb_target_add_tracing",
+              "eb_declare_atf_component",
+              "eb_testing_enabled",
+              "eb_add_reqm2",
+              "eb_generate_datapool",
+              "eb_target_add_profiling",
+              "eb_install_set_interface_headers_filter",
+              "eb_install_library",
+              "eb_add_library",
+              "eb_set_folder",
+              "eb_create_release_target_script",
+              "mr_install_resource_file",
+              "mr_install_resource_files",
+              "eb_install",
+              "appendincludefolder",
+              "eb_release_create_copy_script",
+              "eb_separate_symbols",
+              "eb_configure_natify_paths",
+              "ctest_addtestplan",
+              "luamaptest_configure_signalmapper_cfg"
+            ]
+          }
         }
       ]
     },
-
     {
+      "id": "CM001",
       "appliesTo": "TargetCMakeLists",
-      "rules": [
+      "name:": "name of rule",
+      "checks": [
         {
-          "id": "CM001",
-          "name:": "name of rule",
-          "checks": [
-            {
-              "id": "C001",
-              "config": {
-                "commands": [
-                  {
-                    "name": "^add_library|add_executable$",
-                    "occurences": "1"
-                  },
-                  {
-                    "name": "^target_link_libraries$",
-                    "occurences": "1+"
-                  }
-                ]
+          "id": "C001",
+          "config": {
+            "commands": [
+              {
+                "name": "^add_library|add_executable$",
+                "occurences": "1"
+              },
+              {
+                "name": "^target_link_libraries$",
+                "occurences": "1+"
               }
-            }
-          ]
+            ]
+          }
         }
       ]
     }

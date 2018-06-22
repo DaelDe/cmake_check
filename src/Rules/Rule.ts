@@ -20,12 +20,16 @@ export class Rule {
         return this.config.name;
     }
 
-    public get appliesTo(): string {
+    public get appliesTo(): string[] {
         return this.config.appliesTo;
     }
 
+    public get enabled(): boolean {
+        return this.config.enabled;
+    }
+
     public check(cm: CMakeFile): checks.FailedCheck[]|undefined {
-        if (!cm.type || this.config.appliesTo !== FileType[cm.type()] ) {
+        if (!cm.type || !this.config.appliesTo.includes(FileType[cm.type()]) ) {
             return undefined;
         }
 

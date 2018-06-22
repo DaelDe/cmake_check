@@ -56,7 +56,7 @@ export class C001 implements IChecker {
             // evaluate
             if (tmp.commands.length === 0) {
                 // does not exist
-                if (!("occurences" in tmp.cCommand) || !this.occured(tmp.cCommand.occurences, 0) ) {
+                if (!("occurences" in tmp.cCommand) || this.occured(tmp.cCommand.occurences, 0) !== 0) {
                     const message: string =
                         `expected calls to ${tmp.cCommand.name}`;
                     result.push(new FailedCheck(undefined, tmp.cCommand.name, message
@@ -104,46 +104,4 @@ export class C001 implements IChecker {
         }
     }
 
-    // public check(cm: CMakeFile): FailedCheck[] {
-    //     // const count: Map<string, Command[]> = new Map<string, Command[]>();
-    //     const result: FailedCheck[] = [];
-
-    //     this.temp.forEach((tmp: IC001Intermediate) => {
-    //         let res = tmp.qCommand.evaluate(cm.obj);
-    //         const com = tmp.cCommand;
-
-    //         // workaround for jsonata bug, we always want the result as array
-    //         res = Array.isArray(res) ? res : [res];
-    //         if (res[0] === undefined) {
-    //             // does not exist
-    //             if (!("occurences" in com) || com.occurences as number > 0) {
-    //                 const message: string =
-    //                     `expected calls to ${com.name}`;
-    //                 result.push(new FailedCheck(undefined, com.name, message
-    //                     , { occurences: 0 }, { occurences: com.occurences }));
-    //             }
-    //         } else if ("occurences" in com) {
-    //             if ("occurences" in com && com.occurences !== res.length) {
-    //                 let loc: ILocation | undefined;
-    //                 if (com.occurences as number < res.length) {
-    //                     // location of the warning is the first command that violates
-    //                     loc = res[com.occurences as number].loc;
-    //                 } else if (com.occurences as number > res.length) {
-    //                     // location of the warning is end of file because more matches have been expected
-    //                     loc = {
-    //                         end: { offset: 0, line: cm.numLines, column: 0 },
-    //                         start: { offset: 0, line: cm.numLines, column: 0 },
-    //                     };
-    //                 }
-
-    //                 const message: string =
-    //                     `expected ${com.occurences} occurences of ${com.name}, but got ${res.length}`;
-    //                 result.push(new FailedCheck(loc, com.name, message
-    //                     , { occurences: com.occurences }, { occurences: res.length }));
-    //             }
-    //         }
-    //     });
-
-    //     return result;
-    // }
 }

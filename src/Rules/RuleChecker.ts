@@ -15,6 +15,7 @@ class Statistics {
     public ignoredFiles: number = 0;
     public cleanFiles: number = 0;
     public dirtyFiles: number = 0;
+    public numWarnings: number = 0;
 }
 
 interface IOptions {
@@ -34,7 +35,10 @@ export default class RuleChecker {
         this.stats = new Statistics();
 
         this.config.rules.forEach( (rule) => {
-            this.rules.push(new Rule(rule));
+            const r = new Rule(rule);
+            if (r.enabled) {
+                this.rules.push(r);
+            }
         });
     }
 
@@ -54,6 +58,7 @@ export default class RuleChecker {
                     if (!results) {
                         results = [];
                     }
+                    this.stats.numWarnings += result.length;
                     results = results.concat(this.formatMessages(cm, result, rule));
                 }
             });
@@ -86,7 +91,7 @@ export default class RuleChecker {
     public logSummary() {
         this.logger.info(`Checked ${this.stats.checkedFiles} files`);
         this.logger.info(`${this.stats.cleanFiles} files are clean`);
-        this.logger.info(`${this.stats.dirtyFiles} files have warnings`);
+        this.logger.info(`${this.stats.dirtyFiles} files have ${this.stats.numWarnings} warnings`);
         this.logger.info(`${this.stats.ignoredFiles} files are ignored`);
     }
 

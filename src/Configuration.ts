@@ -6,6 +6,7 @@ export interface ICheck {
 export interface IRule {
     id: string;
     name: string;
-    appliesTo: string;
+    appliesTo: string[];
+    enabled: boolean;
     checks: ICheck[];
 }

@@ -4,8 +4,11 @@ import { FailedCheck, IChecker, ILocation } from "./IChecker";
 
 export interface ICommandCheck {
     name: string;
-    /** number of expected occurences of command; not checked if not available */
-    occurences?: number;
+    /**
+     * number of expected occurences of command; not checked if not available
+     * it can be a number or number with postfix '+' for occurences >= given number
+     */
+    occurences: string;
 }
 
 export interface ICM001Config {
@@ -53,7 +56,7 @@ export class C001 implements IChecker {
             // evaluate
             if (tmp.commands.length === 0) {
                 // does not exist
-                if (!("occurences" in tmp.cCommand) || tmp.cCommand.occurences as number > 0) {
+                if (!("occurences" in tmp.cCommand) || !this.occured(tmp.cCommand.occurences, 0) ) {
                     const message: string =
                         `expected calls to ${tmp.cCommand.name}`;
                     result.push(new FailedCheck(undefined, tmp.cCommand.name, message
@@ -61,12 +64,13 @@ export class C001 implements IChecker {
                 }
             } else {
                 if ("occurences" in tmp.cCommand) {
-                    if (tmp.cCommand.occurences !== tmp.commands.length) {
+                    const r = this.occured(tmp.cCommand.occurences, tmp.commands.length);
+                    if ( r !== 0 ) {
                         let loc: ILocation | undefined;
-                        if (tmp.cCommand.occurences as number < tmp.commands.length) {
+                        if (r === -1) {
                             // location of the warning is the first command that violates
-                            loc = tmp.commands[tmp.cCommand.occurences as number].location;
-                        } else if (tmp.cCommand.occurences as number > tmp.commands.length) {
+                            loc = tmp.commands[this.numOccurence(tmp.cCommand.occurences)].location;
+                        } else  {
                             // location of the warning is end of file because more matches have been expected
                             loc = {
                                 end: { offset: 0, line: cm.numLines, column: 0 },
@@ -85,6 +89,19 @@ export class C001 implements IChecker {
         });
 
         return result;
+    }
+
+    private numOccurence(occ: string): number {
+        return occ.endsWith("+") ? parseInt( occ.substr(0, occ.length - 1), 10) : parseInt(occ, 10);
+    }
+
+    private occured(expected: string, actual: number): number {
+        const exp: number = this.numOccurence(expected);
+        if (expected.endsWith("+")) {
+            return  exp <= actual ? 0 : 1;
+        } else {
+            return exp === actual ? 0 : exp < actual ? -1 : 1;
+        }
     }
 
     // public check(cm: CMakeFile): FailedCheck[] {

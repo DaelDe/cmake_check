@@ -84,10 +84,15 @@
                   "eb_add_library",
                   "eb_set_folder",
                   "eb_create_release_target_script",
+                  "mr_install_resource_file",
                   "mr_install_resource_files",
                   "eb_install",
                   "appendincludefolder",
-                  "eb_release_create_copy_script"
+                  "eb_release_create_copy_script",
+                  "eb_separate_symbols",
+                  "eb_configure_natify_paths",
+                  "ctest_addtestplan",
+                  "luamaptest_configure_signalmapper_cfg"
                 ]
               }
             }
@@ -109,11 +114,11 @@
                 "commands": [
                   {
                     "name": "^add_library|add_executable$",
-                    "occurences": 1
+                    "occurences": "1"
                   },
                   {
                     "name": "^target_link_libraries$",
-                    "occurences": 1
+                    "occurences": "1+"
                   }
                 ]
               }

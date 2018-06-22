@@ -29,7 +29,8 @@ Cmake_check can be used to enforce a certain coding style or project/company gui
 Cmake_check uses [semantic versioning](https://semver.org/).
 
 ### Binaries
-Each [release](releases) comes with a set of Linux and Windows binaries.
+Each [release](https://github.com/DaelDe/cmake_check/releases) comes with a set 
+of Linux and Windows binaries.
 
 ### NPM
 Note: npm is not yet supported

@@ -2,8 +2,9 @@
   "cRules": [
     {
       "id": "Whitelist",
-      "appliesTo": "CMakeLists",
+      "appliesTo": ["CMakeLists","TargetCMakeLists"],
       "name:": "Allowed CMake commands",
+      "enabled": true,
       "checks": [
         {
           "id": "C003",
@@ -13,6 +14,7 @@
               "add_custom_target",
               "add_custom_command",
               "add_definitions",
+              "add_dependencies",
               "add_library",
               "add_subdirectory",
               "add_test",
@@ -29,6 +31,9 @@
               "endfunction",
               "endif",
               "file",
+              "find_library",
+              "find_file",
+              "find_path",
               "find_package",
               "function",
               "foreach",
@@ -46,9 +51,12 @@
               "message",
               "option",
               "project",
+              "remove_definitions",
               "set",
               "set_property",
+              "set_source_files_properties",
               "set_target_properties",
+              "set_xcode_property",
               "return",
               "source_group",
               "string",
@@ -80,6 +88,8 @@
               "eb_install_library",
               "eb_add_library",
               "eb_set_folder",
+              "eb_install_targets",
+              "generate_export_header",
               "eb_create_release_target_script",
               "mr_install_resource_file",
               "mr_install_resource_files",
@@ -89,16 +99,50 @@
               "eb_separate_symbols",
               "eb_configure_natify_paths",
               "ctest_addtestplan",
-              "luamaptest_configure_signalmapper_cfg"
+              "luamaptest_configure_signalmapper_cfg",
+              "list_subdirectories",
+              "_add_library",
+              "link_exe_systemcommon",
+              "link_lib_systemcommon",
+              "eb_geo_setcompilererrors_gcc",
+              "eb_geo_setcompilerwarnings_msvc",
+              "eb_geo_setcompilerwarnings_gcc",
+              "pkg_check_modules",
+              "eb_guidance_documentsourcedirectoryentry",
+              "eb_guidance_additionaldocumentsource",
+              "eb_guidance_documentsourcedirectory",
+              "eb_add_precompiled_header",
+              "eb_guidance_documentsource",
+              "eb_package_get_properties",
+              "subversion_wc_info",
+              "math",
+              "mr_check_mapconfig_model_compatible",
+              "mr_check_styles_compatible",
+              "mr_unittest_filter_sources",
+              "mr_unittest_add_executable",
+              "eb_generate_tracing_files",
+              "eb_generate_atf_component_files",
+              "eb_target_definition",
+              "eb_add_test_subdirectory",
+              "transform_makefile_inc",
+              "setup_curl_dependencies",
+              "eb_use_gtest",
+              "csharp_set_windows_forms_properties",
+              "csharp_set_designer_cs_properties",
+              "csharp_set_windows_forms_properties",
+              "precompile_headers",
+              "check_c_source_compiles",
+              "fortrancinterface_header"
             ]
           }
         }
       ]
     },
     {
-      "id": "CM001",
-      "appliesTo": "TargetCMakeLists",
+      "id": "CM-001",
+      "appliesTo": ["TargetCMakeLists"],
       "name:": "name of rule",
+      "enabled": false,
       "checks": [
         {
           "id": "C001",
@@ -111,11 +155,70 @@
               {
                 "name": "^target_link_libraries$",
                 "occurences": "1+"
+              },
+              {
+                "name": "^target_include_directories$",
+                "occurences": "1"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "CM-003",
+      "appliesTo": ["TargetCMakeLists"],
+      "name:": "Variable usage is prohibited",
+      "enabled": false,
+      "checks": [
+        {
+          "id": "C001",
+          "config": {
+            "commands": [
+              {
+                "name": "^set$",
+                "occurences": "0"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "CM-005",
+      "appliesTo": ["TargetCMakeLists"],
+      "name:": "Forbidden CMake commands",
+      "enabled": false,
+      "checks": [
+        {
+          "id": "C001",
+          "config": {
+            "commands": [
+              {
+                "name": "^add_compile_options$",
+                "occurences": "0"
+              },
+              {
+                "name": "^include_directories$",
+                "occurences": "0"
+              },
+              {
+                "name": "^link_directories$",
+                "occurences": "0"
+              },
+              {
+                "name": "^link_libraries$",
+                "occurences": "0"
+              },
+              {
+                "name": "^target_compile_options$",
+                "occurences": "0"
               }
             ]
           }
         }
       ]
     }
+
   ]
 }

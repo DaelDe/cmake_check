@@ -25,7 +25,7 @@ const logger = log.createLogger({
 });
 
 const opt = yargs
-    .array("input").alias("input", "i").describe("i", "list of input CMakeLists.txt or folders")
+    .array("input").alias("input", "i").describe("i", "List of input CMakeLists.txt or folders")
     .count("v").describe("v", "Increase verbosity level")
     .config().alias("config", "c")
     .demandOption(["config", "input"], "Please provide a configuration and input")
@@ -33,13 +33,14 @@ const opt = yargs
     .option("o", {
         alias: "out",
         demandOption: true,
-        describe: "output file name",
+        describe: "Output file name",
         type: "string",
     })
     .option("write-json", {
         hidden: true,
         type: "boolean",
     })
+    .locale("en")
     .argv;
 
 if (opt.v === 1) {

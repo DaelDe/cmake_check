@@ -1,4 +1,44 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema",
-  "type": "object"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "cRules": {
+      "type": "array",
+      "items": {
+        "type":"object",
+        "properties": {
+          "id": {"type": "string"},
+          "appliesTo": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "CMakeLists",
+                "TargetCMakeLists",
+                "CMakeModule"
+              ]
+            }
+          },
+          "name": {"type": "string"},
+          "enabled": {"type": "boolean"},
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalItems": false,
+              "properties": {
+                "id": {"type": "string"},
+                "config": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+    "required": [ "cRules" ]
 }

@@ -2,8 +2,11 @@
   "cRules": [
     {
       "id": "Whitelist",
-      "appliesTo": ["CMakeLists","TargetCMakeLists"],
-      "name:": "Allowed CMake commands",
+      "appliesTo": [
+        "CMakeLists",
+        "TargetCMakeLists"
+      ],
+      "name": "Allowed CMake commands",
       "enabled": true,
       "checks": [
         {
@@ -67,72 +70,7 @@
               "target_link_libraries",
               "target_sources",
               "unset",
-              "variable_watch",
-              "eb_target_add_resources",
-              "eb_declare_component",
-              "eb_target_add_information",
-              "eb_install_via_interface",
-              "eb_export_interface",
-              "eb_export_interfaces_end",
-              "eb_import_interfaces",
-              "eb_target_self_contained",
-              "eb_set_warning_level",
-              "eb_add_test",
-              "eb_target_add_tracing",
-              "eb_declare_atf_component",
-              "eb_testing_enabled",
-              "eb_add_reqm2",
-              "eb_generate_datapool",
-              "eb_target_add_profiling",
-              "eb_install_set_interface_headers_filter",
-              "eb_install_library",
-              "eb_add_library",
-              "eb_set_folder",
-              "eb_install_targets",
-              "generate_export_header",
-              "eb_create_release_target_script",
-              "mr_install_resource_file",
-              "mr_install_resource_files",
-              "eb_install",
-              "appendincludefolder",
-              "eb_release_create_copy_script",
-              "eb_separate_symbols",
-              "eb_configure_natify_paths",
-              "ctest_addtestplan",
-              "luamaptest_configure_signalmapper_cfg",
-              "list_subdirectories",
-              "_add_library",
-              "link_exe_systemcommon",
-              "link_lib_systemcommon",
-              "eb_geo_setcompilererrors_gcc",
-              "eb_geo_setcompilerwarnings_msvc",
-              "eb_geo_setcompilerwarnings_gcc",
-              "pkg_check_modules",
-              "eb_guidance_documentsourcedirectoryentry",
-              "eb_guidance_additionaldocumentsource",
-              "eb_guidance_documentsourcedirectory",
-              "eb_add_precompiled_header",
-              "eb_guidance_documentsource",
-              "eb_package_get_properties",
-              "subversion_wc_info",
-              "math",
-              "mr_check_mapconfig_model_compatible",
-              "mr_check_styles_compatible",
-              "mr_unittest_filter_sources",
-              "mr_unittest_add_executable",
-              "eb_generate_tracing_files",
-              "eb_generate_atf_component_files",
-              "eb_target_definition",
-              "eb_add_test_subdirectory",
-              "transform_makefile_inc",
-              "setup_curl_dependencies",
-              "eb_use_gtest",
-              "csharp_set_windows_forms_properties",
-              "csharp_set_designer_cs_properties",
-              "csharp_set_windows_forms_properties",
-              "precompile_headers",
-              "check_c_source_compiles",
-              "fortrancinterface_header"
+              "variable_watch"
             ]
           }
         }
@@ -140,8 +78,10 @@
     },
     {
       "id": "CM-001",
-      "appliesTo": ["TargetCMakeLists"],
-      "name:": "name of rule",
+      "appliesTo": [
+        "TargetCMakeLists"
+      ],
+      "name": "name of rule",
       "enabled": false,
       "checks": [
         {
@@ -167,8 +107,10 @@
     },
     {
       "id": "CM-003",
-      "appliesTo": ["TargetCMakeLists"],
-      "name:": "Variable usage is prohibited",
+      "appliesTo": [
+        "TargetCMakeLists"
+      ],
+      "name": "Variable usage is prohibited",
       "enabled": false,
       "checks": [
         {
@@ -186,8 +128,10 @@
     },
     {
       "id": "CM-005",
-      "appliesTo": ["TargetCMakeLists"],
-      "name:": "Forbidden CMake commands",
+      "appliesTo": [
+        "TargetCMakeLists"
+      ],
+      "name": "Forbidden CMake commands",
       "enabled": false,
       "checks": [
         {
@@ -218,7 +162,27 @@
           }
         }
       ]
+    },
+    {
+      "id": "CM-018",
+      "appliesTo": [
+        "TargetCMakeLists"
+      ],
+      "name": "Project not allowed along target definitions",
+      "enabled": false,
+      "checks": [
+        {
+          "id": "C001",
+          "config": {
+            "commands": [
+              {
+                "name": "^project$",
+                "occurences": "0"
+              }
+            ]
+          }
+        }
+      ]
     }
-
   ]
 }

@@ -1,3 +1,4 @@
+import * as avj from "ajv";
 import * as fs from "fs";
 import * as path from "path";
 import * as util from "util";
@@ -27,7 +28,12 @@ const logger = log.createLogger({
 const opt = yargs
     .array("input").alias("input", "i").describe("i", "List of input CMakeLists.txt or folders")
     .count("v").describe("v", "Increase verbosity level")
-    .config().alias("config", "c")
+    .option("c", {
+        alias: "config",
+        demandOption: true,
+        describe: "Path to JSON config file",
+        type: "string",
+    })
     .demandOption(["config", "input"], "Please provide a configuration and input")
     .help().alias("help", "h")
     .option("o", {
@@ -51,6 +57,24 @@ if (opt.v === 1) {
     transports.console.level = "debug";
 }
 
+// load config
+const config = JSON.parse( fs.readFileSync(opt.config).toString() );
+// validate the given config file
+const validator = new avj.default({
+    jsonPointers: true,
+});
+const schema: Buffer = fs.readFileSync(`res/config.schema.json`);
+const validate = validator.compile(JSON.parse(schema.toString()));
+const valid = validate(config);
+
+if (!valid && validate.errors) {
+    validate.errors.forEach((error: avj.ErrorObject) => {
+        // console.log(validate.errors);
+        logger.error(`Configuration invalid, ${error.dataPath} ${error.message}`);
+     });
+    process.exit(1);
+}
+
 const ruleLogger = log.createLogger({
     format: log.format.combine(log.format.simple()),
     level: "info",
@@ -71,7 +95,7 @@ const cmakePatterns = [
 const crawlOpts = { exclude: [".svn", ".git"] };
 
 const rc: RuleChecker = new RuleChecker(logger, ruleLogger, {
-    rules: opt.cRules,
+    rules: config.cRules,
     writeJSON: opt["write-json"],
 });
 

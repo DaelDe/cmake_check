@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.ts",
     "build": "tsc",
-    "package": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin lib/Main.js"
+    "package": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
   },
   "author": "Daniel Graupner",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "typescript": "^2.8.3"
   },
   "dependencies": {
+    "@types/ajv": "^1.0.0",
     "@types/pegjs": "^0.10.0",
     "@types/yargs": "^11.0.0",
     "ajv": "^6.5.0",
@@ -27,5 +28,11 @@
     "pegjs": "^0.10.0",
     "winston": "^3.0.0-rc6",
     "yargs": "^11.0.0"
+  },
+  "bin": {
+    "cmake_check": "./lib/Main.js"
+  },
+  "pkg": {
+    "assets": "res/**/*"
   }
 }

@@ -1,8 +1,8 @@
 {
-  "name": "cmake_style",
+  "name": "cmake_check",
   "version": "1.0.0",
   "description": "A style checker for CMakeLists.txt files",
-  "main": "main.js",
+  "main": "lib/Main.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.ts",
     "build": "tsc",

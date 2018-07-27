@@ -63,7 +63,7 @@ const config = JSON.parse( fs.readFileSync(opt.config).toString() );
 const validator = new avj.default({
     jsonPointers: true,
 });
-const schema: Buffer = fs.readFileSync(`res/config.schema.json`);
+const schema: Buffer = fs.readFileSync(`${__dirname}/../res/config.schema.json`);
 const validate = validator.compile(JSON.parse(schema.toString()));
 const valid = validate(config);
 

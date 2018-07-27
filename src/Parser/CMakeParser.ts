@@ -8,7 +8,7 @@ export class CMakeParser {
     private parser: pegjs.Parser;
 
     constructor() {
-        const grammar: Buffer = fs.readFileSync("res/cmake.pegjs");
+        const grammar: Buffer = fs.readFileSync(`${__dirname}/../../res/cmake.pegjs`);
         this.parser = pegjs.generate(grammar.toString());
     }
 

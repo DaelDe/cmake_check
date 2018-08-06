@@ -1,7 +1,7 @@
 {
   "name": "cmake_check",
   "version": "1.0.0",
-  "description": "A style checker for CMakeLists.txt files",
+  "description": "A style checker for CMakeLists.txt files and CMake modules",
   "main": "lib/Main.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.ts",
@@ -9,7 +9,11 @@
     "package": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
   },
   "author": "Daniel Graupner",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DaelDe/cmake_check"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.5",
@@ -18,6 +22,9 @@
     "mocha": "^5.2.0",
     "ts-node": "^6.2.0",
     "typescript": "^2.9.2"
+  },
+  "bin": {
+    "cmake_check": "./bin/cmake_check.sh"
   },
   "dependencies": {
     "@types/ajv": "^1.0.0",
@@ -29,9 +36,9 @@
     "winston": "^3.0.0",
     "yargs": "^11.1.0"
   },
-  "bin": {
-    "cmake_check": "./lib/Main.js"
-  },
+  "files": [
+    "res"
+  ],
   "pkg": {
     "assets": "res/**/*"
   }

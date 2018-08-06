@@ -27,7 +27,7 @@ const logger = log.createLogger({
 
 const opt = yargs
     .array("input").alias("input", "i").describe("i", "List of input CMakeLists.txt or folders")
-    .count("v").describe("v", "Increase verbosity level")
+    .count("v").describe("v", "Increase verbosity level (v:info, vv:verbose)")
     .option("c", {
         alias: "config",
         demandOption: true,
@@ -38,8 +38,7 @@ const opt = yargs
     .help().alias("help", "h")
     .option("o", {
         alias: "out",
-        demandOption: true,
-        describe: "Output file name",
+        describe: "Output file name. Warnings are written to stdout when absent.",
         type: "string",
     })
     .option("write-json", {
@@ -76,15 +75,22 @@ if (!valid && validate.errors) {
 }
 
 const ruleLogger = log.createLogger({
-    format: log.format.combine(log.format.simple()),
+    format: log.format.combine(log.format.printf( (info) => info.message )),
     level: "info",
     levels: log.config.npm.levels,
-    transports: [new log.transports.File({
-        filename: opt.out,
-        level: "info",
-        options: {flags: "w"},
-    })],
+    transports: [],
 });
+
+if (opt.out) {
+    ruleLogger.add(
+        new log.transports.File({
+            filename: opt.out,
+            level: "info",
+            options: {flags: "w"}}),
+    );
+} else {
+    ruleLogger.add(new log.transports.Console({}));
+}
 
 const cmakePatterns = [
     new RegExp(/^CMakeLists\.txt$/),

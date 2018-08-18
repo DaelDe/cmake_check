@@ -102,8 +102,10 @@ export default class RuleChecker {
             if (fc.location) {
                 line = fc.location.start.line;
             }
+            // using msbuild format for now: https://blogs.msdn.microsoft.com/msbuild/2006/11/02/msbuild-visual-studio-aware-error-messages-and-message-formats/
+            // levels in the warnings plugin can be achieved with eywords error, warning and info
             result.push(
-                `${cm.filename} (${line}): ${r.id} - ${fc.message}`,
+                `${cm.filename} (${line}) : warning ${r.id}: ${fc.message}`,
             );
         });
         return result;

@@ -17,7 +17,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^10.5.3",
+    "@types/node": "^10.7.1",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "ts-node": "^6.2.0",
@@ -30,7 +30,7 @@
     "@types/ajv": "^1.0.0",
     "@types/pegjs": "^0.10.1",
     "@types/yargs": "^11.1.1",
-    "ajv": "^6.5.2",
+    "ajv": "^6.5.3",
     "logging": "^3.2.0",
     "pegjs": "^0.10.0",
     "winston": "^3.0.0",

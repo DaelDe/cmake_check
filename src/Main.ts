@@ -1,30 +1,14 @@
 import * as avj from "ajv";
 import * as fs from "fs";
-import * as path from "path";
-import * as util from "util";
-import * as log from "winston";
 import * as yargs from "yargs";
 import {crawl} from "./FileCrawler";
+import {createLogger, createRuleLogger, transports} from "./Logging";
 import RuleChecker from "./Rules/RuleChecker";
 
-/*
-tasks
-- using the config options
-- create object that verifies files (check if valid CMake + rulesets)
-*/
+// application logging
+const logger = createLogger();
 
-const transports = {
-    console: new log.transports.Console({}),
-//    file: new log.transports.File({ filename: 'combined.log', level: 'error' })
-  };
-
-const logger = log.createLogger({
-    format: log.format.combine( log.format.simple(), log.format.colorize() ),
-    level: "warn",
-    levels: log.config.npm.levels,
-    transports: [transports.console],
-});
-
+// cmake_check option definition
 const opt = yargs
     .array("input").alias("input", "i").describe("i", "List of input CMakeLists.txt or folders")
     .count("v").describe("v", "Increase verbosity level (v:info, vv:verbose)")
@@ -56,9 +40,9 @@ if (opt.v === 1) {
     transports.console.level = "debug";
 }
 
-// load config
+// load configuration
 const config = JSON.parse( fs.readFileSync(opt.config).toString() );
-// validate the given config file
+// validate the given config file against a schema
 const validator = new avj.default({
     jsonPointers: true,
 });
@@ -74,31 +58,20 @@ if (!valid && validate.errors) {
     process.exit(1);
 }
 
-const ruleLogger = log.createLogger({
-    format: log.format.combine(log.format.printf( (info) => info.message )),
-    level: "info",
-    levels: log.config.npm.levels,
-    transports: [],
-});
+// logging for rule results (analysis warnings)
+const ruleLogger = createRuleLogger( opt.out );
 
-if (opt.out) {
-    ruleLogger.add(
-        new log.transports.File({
-            filename: opt.out,
-            level: "info",
-            options: {flags: "w"}}),
-    );
-} else {
-    ruleLogger.add(new log.transports.Console({}));
-}
-
+// file names that are checked
 const cmakePatterns = [
     new RegExp(/^CMakeLists\.txt$/),
     // new RegExp(/.*\.cmake$/), // CMake modules are not yet supported
     new RegExp(/^CMakeLists\s*\([0-9]+\)\.txt$/),
 ];
 
-const crawlOpts = { exclude: [".svn", ".git"] };
+const crawlOpts = { excludePaths: [] };
+if (config.crawler.excludePaths) {
+    crawlOpts.excludePaths = config.crawler.excludePaths.map( (r: string) => new RegExp(r) );
+}
 
 const rc: RuleChecker = new RuleChecker(logger, ruleLogger, {
     rules: config.cRules,
@@ -108,7 +81,6 @@ const rc: RuleChecker = new RuleChecker(logger, ruleLogger, {
 async function main() {
     try {
         logger.profile("took");
-
         try {
             await Promise.all( opt.input.map( async (element: string) => {
                 const stats = fs.statSync(element);
@@ -120,7 +92,7 @@ async function main() {
                     logger.info(`Checking files in ${element}`);
                     await crawl( element, cmakePatterns, crawlOpts, async (f) => {
                         await rc.check(f);
-                    });
+                    }, logger);
                 }
             }));
             rc.logSummary();

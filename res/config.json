@@ -1,4 +1,8 @@
 {
+  "crawler":
+  {
+    "excludePaths":[".git$", ".svn$"]
+  },
   "cRules": [
     {
       "id": "Whitelist",

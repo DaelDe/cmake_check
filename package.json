@@ -1,7 +1,7 @@
 {
   "name": "cmake_check",
-  "version": "1.0.0",
-  "description": "A style checker for CMakeLists.txt files and CMake modules",
+  "version": "0.1.0",
+  "description": "A static analyzer for CMakeLists.txt files and CMake modules",
   "main": "lib/Main.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.ts",
@@ -20,8 +20,8 @@
     "@types/node": "^10.7.1",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
-    "ts-node": "^6.2.0",
-    "typescript": "^2.9.2"
+    "ts-node": "^7.0.1",
+    "typescript": "^3.0.1"
   },
   "bin": {
     "cmake_check": "./bin/cmake_check.sh"
@@ -34,7 +34,7 @@
     "logging": "^3.2.0",
     "pegjs": "^0.10.0",
     "winston": "^3.0.0",
-    "yargs": "^11.1.0"
+    "yargs": "^12.0.1"
   },
   "files": [
     "res"

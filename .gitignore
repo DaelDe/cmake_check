@@ -9,3 +9,5 @@ lib
 
 test/res
 test/fails
+bin/cmake_check-*
+*/warnings.txt

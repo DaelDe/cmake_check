@@ -1,3 +1,5 @@
+[![NPM](https://nodei.co/npm/cmake_check.png)](https://nodei.co/npm/cmake_check/)
+
 [![Build status](https://travis-ci.org/DaelDe/cmake_check.svg?branch=master)](https://travis-ci.org/DaelDe/cmake_check)
 
 # cmake_check

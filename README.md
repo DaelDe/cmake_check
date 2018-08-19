@@ -15,8 +15,8 @@ Cmake_check can be used to enforce a certain coding style or project/company gui
   [jenkins warnings plugin](https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin)
 
 ## Available checks
-- require commands to exist
-- only allow white-listed commands
+- require commands to exist (or not exist)
+- allow white-listed commands only (to limit the use of custom functions)
 
 ### Planned checks
 - require a specific command order
@@ -25,18 +25,29 @@ Cmake_check can be used to enforce a certain coding style or project/company gui
 - maximum line length
 - indentation checks
 
-## Installation
+## Versioning
 Cmake_check uses [semantic versioning](https://semver.org/).
+
+## Installation
 
 ### Binaries
 Each [release](https://github.com/DaelDe/cmake_check/releases) comes with a set 
 of Linux and Windows binaries.
 
 ### NPM
-Note: npm is not yet supported
+Install [NodeJS](https://nodejs.org/) (version > 8.11).
+```sh
+npm install -g cmake_check`
+```
 
-`npm install -g cmake_check`
+## Usage
+The basic use is:
+```sh
+cmake_check -c <config file> -i <input folder or file>
+```
+All CMake files in the given input folders are analyzed with the given configuration.
+All warnings are written to stdout.
 
-## Options
+For more information and further available options call `cmake_check -h`.
 
-## Examples
+## Configuration

@@ -1,3 +1,5 @@
+[![Build status][travis-image]][travis-url]
+
 # cmake_check
 Cmake_check is a linter for the [CMake language](https://cmake.org). It takes a set of user-defined 
 rules and reports violations for CMakeLists.txt files and CMake modules.

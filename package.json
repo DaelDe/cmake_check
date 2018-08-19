@@ -1,12 +1,21 @@
 {
   "name": "cmake_check",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "A static analyzer for CMakeLists.txt files and CMake modules",
   "main": "lib/Main.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/**/*.ts",
     "build": "tsc",
-    "package": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
+    "pkg": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
+  },
+  "files": [
+    "res",
+    "bin/cmake_check",
+    "lib",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=8.11.4"
   },
   "author": "Daniel Graupner <github@dael.de>",
   "license": "MIT",
@@ -14,30 +23,36 @@
     "type": "git",
     "url": "https://github.com/DaelDe/cmake_check"
   },
+  "bugs": {
+    "url": "https://github.com/DaelDe/cmake_check/issues"
+  },
+  "keywords": [
+    "cmake",
+    "linter",
+    "static_analysis",
+    "checker"
+  ],
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/mocha": "^5.2.5",
     "@types/node": "^10.7.1",
+    "@types/pegjs": "^0.10.1",
+    "@types/yargs": "^11.1.1",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
     "ts-node": "^7.0.1",
     "typescript": "^3.0.1"
   },
   "bin": {
-    "cmake_check": "./bin/cmake_check.sh"
+    "cmake_check": "./bin/cmake_check"
   },
   "dependencies": {
-    "@types/pegjs": "^0.10.1",
-    "@types/yargs": "^11.1.1",
     "ajv": "^6.5.3",
     "logging": "^3.2.0",
     "pegjs": "^0.10.0",
     "winston": "^3.0.0",
     "yargs": "^12.0.1"
   },
-  "files": [
-    "res"
-  ],
   "pkg": {
     "assets": "res/**/*"
   }

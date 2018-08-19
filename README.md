@@ -1,6 +1,6 @@
 # cmake_check
 Cmake_check is a linter for the [CMake language](https://cmake.org). It takes a set of user-defined 
-rules and reports violations for a CMakeLists.txt file, CMake Module or a full source tree.
+rules and reports violations for CMakeLists.txt files and CMake modules.
 
 CMake_check is a command line application suitable for continuous integration checks. This is 
 especially useful for large source trees with hundreds of CMake files.
@@ -9,7 +9,7 @@ Cmake_check can be used to enforce a certain coding style or project/company gui
 
 ## Features
 - recursive check of all CMake files in a given directory
-- allows definition of custom rules
+- allows combination of checks to form custom rules
 - a rule may consist of any number of [checks](doc/Checks.md)
 - provides warning output that can be used by the 
   [jenkins warnings plugin](https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin)

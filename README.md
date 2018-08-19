@@ -1,4 +1,4 @@
-[![Build status][travis-image]][travis-url]
+[![Build status](https://travis-ci.org/DaelDe/cmake_check.svg?branch=master)](https://travis-ci.org/DaelDe/cmake_check)
 
 # cmake_check
 Cmake_check is a linter for the [CMake language](https://cmake.org). It takes a set of user-defined 

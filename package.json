@@ -4,8 +4,9 @@
   "description": "A static analyzer for CMakeLists.txt files and CMake modules",
   "main": "lib/Main.js",
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.ts",
+    "setup": "npm install",
     "build": "tsc",
+    "test": "mocha -r ts-node/register test/**/*.ts",
     "pkg": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
   },
   "files": [

@@ -98,10 +98,11 @@ export default class RuleChecker {
     private formatMessages(cm: CMakeFile, results: FailedCheck[], r: Rule): string[] {
         const result: string[] = [];
         results.forEach( (fc: FailedCheck) => {
-            let line: number = -1;
+            let line: number = 0;
             if (fc.location) {
                 line = fc.location.start.line;
             }
+            // tslint:disable-next-line:max-line-length
             // using msbuild format for now: https://blogs.msdn.microsoft.com/msbuild/2006/11/02/msbuild-visual-studio-aware-error-messages-and-message-formats/
             // levels in the warnings plugin can be achieved with eywords error, warning and info
             result.push(

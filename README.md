@@ -55,3 +55,6 @@ All warnings are written to stdout.
 For more information and further available options call `cmake_check -h`.
 
 ## Configuration
+An [example configuration](res/config.json) is available.
+
+Documentation for all config options is under construction.

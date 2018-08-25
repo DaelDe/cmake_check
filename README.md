@@ -1,6 +1,7 @@
 [![NPM](https://nodei.co/npm/cmake_check.png)](https://nodei.co/npm/cmake_check/)
 
 [![Build status](https://travis-ci.org/DaelDe/cmake_check.svg?branch=master)](https://travis-ci.org/DaelDe/cmake_check)
+[![Known Vulnerabilities](https://snyk.io/test/github/DaelDe/cmake_check/badge.svg?targetFile=package.json)](https://snyk.io/test/github/DaelDe/cmake_check?targetFile=package.json)
 
 # cmake_check
 Cmake_check is a linter for the [CMake language](https://cmake.org). It takes a set of user-defined 

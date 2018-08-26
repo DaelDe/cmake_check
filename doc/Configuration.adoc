@@ -8,11 +8,8 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-The Article Title
+The cmake_check configuration file
 =================
-Author's Name <authors@email.address>
-v1.0, 2003-12
-
 
 This is the optional preamble (an untitled section body). Useful for
 writing simple sectionless documents consisting only of a preamble.
@@ -20,23 +17,13 @@ writing simple sectionless documents consisting only of a preamble.
 NOTE: The abstract, preface, appendix, bibliography, glossary and
 index section titles are significant ('specialsections').
 
-[abstract]
-Example Abstract
-----------------
-The optional abstract (one or more paragraphs) goes here.
-
-This document is an AsciiDoc article skeleton containing briefly
-annotated element placeholders plus a couple of example index entries
-and footnotes.
-
-:numbered:
-
 The First Section
 -----------------
 Article sections start at level 1 and can be nested up to four levels
 deep.
 footnote:[An example footnote.]
 indexterm:[Example index entry]
+
 
 .test
 ---------------------------------

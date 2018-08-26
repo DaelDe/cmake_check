@@ -8,22 +8,18 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-The cmake_check configuration file
-=================
+= The cmake_check configuration file
 
-This is the optional preamble (an untitled section body). Useful for
-writing simple sectionless documents consisting only of a preamble.
+This document is all you need to know about what's required in your cmake_check configuration file. 
+It must be actual JSON, not just a JavaScript object literal. It contains of one JSON object, its
+members are described in the following sections.
 
-NOTE: The abstract, preface, appendix, bibliography, glossary and
-index section titles are significant ('specialsections').
+== crawler
+`required, type: object`
 
-The First Section
------------------
-Article sections start at level 1 and can be nested up to four levels
-deep.
-footnote:[An example footnote.]
-indexterm:[Example index entry]
+The _crawler_ object contains options for the directory traversal during search for CMake files.
 
+=== excludePaths
 
 .test
 ---------------------------------
@@ -38,22 +34,6 @@ endif::[]
 <2> Use the `ifndef` to customize for offline
 
 
-And now for something completely different: ((monkeys)), lions and
-tigers (Bengal and Siberian) using the alternative syntax index
-entries.
-(((Big cats,Lions)))
-(((Big cats,Tigers,Bengal Tiger)))
-(((Big cats,Tigers,Siberian Tiger)))
-Note that multi-entry terms generate separate index entries.
-
-Here are a couple of image examples: an image:images/smallnew.png[]
-example inline image followed by an example block image:
-
-.Tiger block image
-image::images/tiger.png[Tiger image]
-
-Followed by an example table:
-
 .An example table
 [width="60%",options="header"]
 |==============================================
@@ -62,33 +42,3 @@ Followed by an example table:
 | -R 'GROUP'      | Disables access to 'GROUP'.
 |==============================================
 
-.An example example
-===============================================
-Lorum ipum...
-===============================================
-
-[[X1]]
-Sub-section with Anchor
-~~~~~~~~~~~~~~~~~~~~~~~
-Sub-section at level 2.
-
-A Nested Sub-section
-^^^^^^^^^^^^^^^^^^^^
-Sub-section at level 3.
-
-Yet another nested Sub-section
-++++++++++++++++++++++++++++++
-Sub-section at level 4.
-
-This is the maximum sub-section depth supported by the distributed
-AsciiDoc configuration.
-footnote:[A second example footnote.]
-
-
-The Second Section
-------------------
-Article sections are at level 1 and can contain sub-sections nested up
-to four deep.
-
-An example link to anchor at start of the <<X1,first sub-section>>.
-indexterm:[Second example index entry]

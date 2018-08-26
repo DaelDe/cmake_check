@@ -1,3 +1,13 @@
+:toc:
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
 The Article Title
 =================
 Author's Name <authors@email.address>
@@ -10,9 +20,6 @@ writing simple sectionless documents consisting only of a preamble.
 NOTE: The abstract, preface, appendix, bibliography, glossary and
 index section titles are significant ('specialsections').
 
-:toc:
-
-:numbered!:
 [abstract]
 Example Abstract
 ----------------
@@ -30,6 +37,19 @@ Article sections start at level 1 and can be nested up to four levels
 deep.
 footnote:[An example footnote.]
 indexterm:[Example index entry]
+
+.test
+---------------------------------
+\ifdef::env-github[] <1>
+:imagesdir: https://gist.githubusercontent.com/path/to/gist/revision/dir/with/all/images
+endif::[]
+\ifndef::env-github[] <2>
+:imagesdir: ./
+endif::[]
+---------------------------------
+<1> Use the `ifdef` to customize for online rendering
+<2> Use the `ifndef` to customize for offline
+
 
 And now for something completely different: ((monkeys)), lions and
 tigers (Bengal and Siberian) using the alternative syntax index
@@ -85,56 +105,3 @@ to four deep.
 
 An example link to anchor at start of the <<X1,first sub-section>>.
 indexterm:[Second example index entry]
-
-An example link to a bibliography entry <<taoup>>.
-
-
-:numbered!:
-
-[appendix]
-Example Appendix
-----------------
-AsciiDoc article appendices are just just article sections with
-'specialsection' titles.
-
-Appendix Sub-section
-~~~~~~~~~~~~~~~~~~~~
-Appendix sub-section at level 2.
-
-
-[bibliography]
-Example Bibliography
---------------------
-The bibliography list is a style of AsciiDoc bulleted list.
-
-[bibliography]
-- [[[taoup]]] Eric Steven Raymond. 'The Art of Unix
-  Programming'. Addison-Wesley. ISBN 0-13-142901-9.
-- [[[walsh-muellner]]] Norman Walsh & Leonard Muellner.
-  'DocBook - The Definitive Guide'. O'Reilly & Associates. 1999.
-  ISBN 1-56592-580-7.
-
-
-[glossary]
-Example Glossary
-----------------
-Glossaries are optional. Glossaries entries are an example of a style
-of AsciiDoc labeled lists.
-
-[glossary]
-A glossary term::
-  The corresponding (indented) definition.
-
-A second glossary term::
-  The corresponding (indented) definition.
-
-
-ifdef::backend-docbook[]
-[index]
-Example Index
--------------
-////////////////////////////////////////////////////////////////
-The index is normally left completely empty, it's contents being
-generated automatically by the DocBook toolchain.
-////////////////////////////////////////////////////////////////
-endif::backend-docbook[]

@@ -20,25 +20,17 @@ members are described in the following sections.
 The _crawler_ object contains options for the directory traversal during search for CMake files.
 
 === excludePaths
+`optional, type: string[]`
 
-.test
----------------------------------
-\ifdef::env-github[] <1>
-:imagesdir: https://gist.githubusercontent.com/path/to/gist/revision/dir/with/all/images
-endif::[]
-\ifndef::env-github[] <2>
-:imagesdir: ./
-endif::[]
----------------------------------
-<1> Use the `ifdef` to customize for online rendering
-<2> Use the `ifndef` to customize for offline
+A list of regular expressions that match directories that shall be skipped during traversal.
+Some folders like `.git` contain a lot of files but are not relevant for cmake_check, 
+excluding them reduces analysis time. Also add directories that contain uninteresting
+files and should be excluded from analysis like 3rd party code.
 
+[source,json]
+----
+"excludePaths":[".git$", ".svn$"]
+----
 
-.An example table
-[width="60%",options="header"]
-|==============================================
-| Option          | Description
-| -a 'USER GROUP' | Add 'USER' to 'GROUP'.
-| -R 'GROUP'      | Disables access to 'GROUP'.
-|==============================================
-
+NOTE: TODO describe how to properly escape . and fix example
+      describe how to match more segments of a path, os path separator etc.

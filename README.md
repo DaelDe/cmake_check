@@ -11,8 +11,8 @@ rules and reports violations for CMakeLists.txt files and CMake modules.
 *   [Quick Start](#Quick_Start)
 *   [Overview](#Overview)
 *   [Download](https://github.com/DaelDe/cmake_check/releases/latest)
-    *   [binaries](#binaries)
-    *   [npm](#npm)
+    *   [Binaries](#binaries)
+    *   [Npm](#npm)
 *   [Versioning](#Versioning)
 *   [Basic Usage](#basic_usage)
     *   [Configuration](#config)
@@ -23,13 +23,13 @@ rules and reports violations for CMakeLists.txt files and CMake modules.
 <a name="Quick_Start"></a>  
 # [Quick Start &#9650;](#___top "click to go to top of document")
 
-Step 1:  Download cloc (several methods, see below).
+Step 1:  Download cmake_check (several methods, see below).
 
 Step 2:  Open a terminal (`cmd.exe` on Windows).
 
-Step 3:  Invoke cloc to check your CMake files or directories.
+Step 3:  Invoke cmake_check to check your CMake files or directories.
 The executable name differs depending on whether you use the
-development source version (`cmake_Check`), a Windows executable
+development source version (`cmake_check`), a Windows executable
 (`cake_check-win.exe`) or , a Linux executable
 (`cmake-check-linux`).  On this page, `cmake_check` is the generic term
 used to refer to any of these.
@@ -74,7 +74,7 @@ Features are:
 - recursive check of all CMake files in a given directory
 - allows combination of checks to form custom rules
 - a rule may consist of any number of [checks](doc/Checks.md)
-- provides warning output that can be used by the 
+- provides warning output (msbuild format) that can be used by the 
   [jenkins warnings plugin](https://wiki.jenkins.io/display/JENKINS/Warnings+Plugin)
 
 Available checks:
@@ -105,7 +105,7 @@ npm install -g cmake_check`
 # Versioning
 Cmake_check uses [semantic versioning](https://semver.org/).
 
-<a name="basic_use"></a>
+<a name="basic_usage"></a>
 # Basic Usage
 The basic use is:
 ```sh
@@ -127,7 +127,8 @@ Documentation for all config options is under construction.
 # [How It Works &#9650;](#___top "click to go to top of document")
 
 Cmake_check uses a [parser-generator](https://github.com/pegjs/pegjs)
-and a [grammar](res/cmake.peg.js) to create a parser of the [CMake language](https://cmake.org/cmake/help/latest/manual/cmake-language.7.html).
+and a [grammar](https://github.com/DaelDe/cmake_check/blob/readme/res/cmake.pegjs) 
+to create a parser of the [CMake language](https://cmake.org/cmake/help/latest/manual/cmake-language.7.html).
 All CMakeLists.txt files from input are parsed to a structured object. 
 All configured checks are executed on that object. Failed checks are 
 printed as warnings.

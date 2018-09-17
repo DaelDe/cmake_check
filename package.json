@@ -1,6 +1,6 @@
 {
   "name": "cmake_check",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "A static analyzer for CMakeLists.txt files and CMake modules",
   "main": "lib/Main.js",
   "scripts": {

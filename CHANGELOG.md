@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - dependency view added to README ([[#13](https://github.com/DaelDe/cmake_check/issues/13)])
+- configurable warning level for rules (error, warning, info)
 
 ### Changed
 - improved README
@@ -17,7 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - parser error for certain bracket arguments fixed [[#28](https://github.com/DaelDe/cmake_check/issues/28)]
 
-## [0.1.4](https://github.com/DaelDe/cmake_check/releases/tag/v0.1.4) - 2018-8-20
+## [[0.1.4](https://github.com/DaelDe/cmake_check/releases/tag/v0.1.4)] - 2018-8-20
 [...full changes](https://github.com/DaelDe/cmake_check/compare/v0.1.3...v0.1.4)
 
 ### Added
@@ -26,6 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - warning results without a line number no longer report negative lines
 
-## [0.1.3](https://github.com/DaelDe/cmake_check/releases/tag/v0.1.3) - 2018-8-19
+## [[0.1.3](https://github.com/DaelDe/cmake_check/releases/tag/v0.1.3)] - 2018-8-19
 
 Initial release

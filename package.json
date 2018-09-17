@@ -6,6 +6,7 @@
   "scripts": {
     "setup": "npm install",
     "build": "tsc",
+    "watch": "tsc -w",
     "test": "mocha -r ts-node/register test/**/*.ts",
     "pkg": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
   },

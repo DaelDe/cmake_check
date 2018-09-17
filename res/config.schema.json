@@ -11,7 +11,8 @@
             "type": "string"
           }
         }
-      }
+      },
+      "required": []
     },
     "cRules": {
       "type": "array",
@@ -32,6 +33,11 @@
           },
           "name": {"type": "string"},
           "enabled": {"type": "boolean"},
+          "severity": {
+            "type": "string",
+            "enum": ["info","warning","error"],
+            "default": "warning"
+          },
           "checks": {
             "type": "array",
             "items": {
@@ -46,7 +52,8 @@
             }
           }
         },
-        "additionalProperties": false
+        "additionalProperties": false,
+        "required": ["id","appliesTo","name","enabled","checks"]
       }
     }
   },

@@ -30,7 +30,6 @@ export default class RuleChecker {
     private rules: Rule[] = [];
 
     constructor(private logger: Logger, private ruleLogger: Logger, private config: IOptions) {
-// should use its own, logger
         this.parser = new p.CMakeParser();
         this.stats = new Statistics();
 
@@ -106,7 +105,7 @@ export default class RuleChecker {
             // using msbuild format for now: https://blogs.msdn.microsoft.com/msbuild/2006/11/02/msbuild-visual-studio-aware-error-messages-and-message-formats/
             // levels in the warnings plugin can be achieved with eywords error, warning and info
             result.push(
-                `${cm.filename} (${line}) : warning ${r.id}: ${fc.message}`,
+                `${cm.filename} (${line}) : ${r.severity} ${r.id}: ${fc.message}`,
             );
         });
         return result;

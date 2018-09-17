@@ -8,8 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [...full changes](https://github.com/DaelDe/cmake_check/compare/v0.1.4...master)
 
 ### Added
-- dependency view added to README ([[#13](https://github.com/DaelDe/cmake_check/issues/13)])
-- configurable warning level for rules (error, warning, info)
+- dependency view added to README [[#13](https://github.com/DaelDe/cmake_check/issues/13)]
+- configurable warning level for rules output (error, warning, info) [[#25](https://github.com/DaelDe/cmake_check/issues/25)]
 
 ### Changed
 - improved README

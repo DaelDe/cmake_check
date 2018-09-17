@@ -90,23 +90,23 @@ Planned checks:
 - indentation checks
 
 <a name="binaries"></a>
-## Binaries
+## [Binaries &#9650;](#___top "click to go to top of document")
 Each [release](https://github.com/DaelDe/cmake_check/releases) comes with a set 
 of Linux and Windows binaries.
 
 <a name="npm"></a>
-## NPM
+## [NPM &#9650;](#___top "click to go to top of document")
 Install [NodeJS](https://nodejs.org/) (version > 8.11).
 ```sh
 npm install -g cmake_check`
 ```
 
 <a name="Versioning"></a>
-# Versioning
+# [Versioning &#9650;](#___top "click to go to top of document")
 Cmake_check uses [semantic versioning](https://semver.org/).
 
 <a name="basic_usage"></a>
-# Basic Usage
+# [Basic Usage &#9650;](#___top "click to go to top of document")
 The basic use is:
 ```sh
 cmake_check -c <config file> -i <input folder or file>
@@ -117,7 +117,7 @@ All warnings are written to stdout.
 For more information and further available options call `cmake_check -h`.
 
 <a name="config"></a>
-## Configuration
+## [Configuration &#9650;](#___top "click to go to top of document")
 An [example configuration](res/config.json) is available. It describes some of the *modern
 CMake* rules.
 
@@ -134,7 +134,7 @@ All configured checks are executed on that object. Failed checks are
 printed as warnings.
 
 <a name="Limitations"></a>
-# [Limitations &#9650;](#___top "click to go to top of document")
+# [Limitations](#___top "click to go to top of document")
 - the language parser will fail on CMakeLists.txt files that do not conform to the CMake language
   - these errors are reported by CMake itself, a successful run of CMake on the input files is a precondition for cmake_check
 

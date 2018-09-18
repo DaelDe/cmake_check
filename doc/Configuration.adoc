@@ -17,12 +17,12 @@ members are described in the following sections.
 As a reference, a commented JSON https://github.com/DaelDe/cmake_check/blob/master/res/config.schema.json[schema] exists.
 
 == crawler
-`required, type: object`
+`required, type:object`
 
 The _crawler_ object contains options for the directory traversal during search for CMake files.
 
 === excludePaths
-`optional, type: string[]`
+`optional, type:string[]`
 
 A list of regular expressions that match directories that shall be skipped during traversal.
 Some folders like `.git` contain a lot of files but are not relevant for cmake_check, 
@@ -36,3 +36,16 @@ files and should be excluded from analysis like 3rd party code.
 
 NOTE: TODO describe how to properly escape . and fix example
       describe how to match more segments of a path, os path separator etc.
+
+== cRules
+`required, type:Rule[]`
+
+The collection of rules that should be applied to CMake files. At least one 
+rule is required.
+
+=== Rule
+`type:object`
+
+A rule is a logical element that describes a requirement to CMake files (an element
+of a coding guideline). A rule consists of any number of checks. The rule is checked
+for each input file and passes when all checks pass.

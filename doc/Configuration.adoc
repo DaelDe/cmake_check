@@ -54,6 +54,30 @@ A rule is a logical element that describes a requirement to CMake files (an elem
 of a coding guideline). A rule consists of any number of checks. The rule is checked
 for each input file and passes when all checks pass.
 
+Example:
+```.json
+{
+ "id": "CM-003",
+ "appliesTo": [
+   "TargetCMakeLists"
+ ],
+ "name": "Variable usage is prohibited",
+ "enabled": true,
+ "checks": [
+   {
+     "id": "C001",
+     "config": {
+       "commands": [
+         { 
+           "name": "^set$",
+           "occurences": "0"
+         }
+       ]
+     }
+   }
+ ]
+}
+```
 ==== id
 `required, type: string`
 
@@ -66,7 +90,7 @@ An array of file types that should be checked against the rule. Values are:
 
 [horizontal]
 CMakeLists:: CMakeLists.txt files that do not define targets. Usually these are the top-level file and 
-files that exist to recurse depper into a directory tree.
+files that exist to recurse deeper into a directory tree.
 TargetCMakeLists:: CMakeLists.txt files that define target(s).
 CMakeModule:: A CMake module with file extension `.cmake`.
 

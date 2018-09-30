@@ -97,9 +97,9 @@ A check object consists of the following values:
 ===== id
 `required, type: string`
 
-The identifier of the check, see the list of available checks.
+The identifier of the check, see the list of link:Checks.adoc[available checks].
 
 ===== config
 `required, type: object`
 
-Parameters for the specific check, see checker documentation.
+Parameters for the specific check, see link:Checks.adoc[checker documentation].

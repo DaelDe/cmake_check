@@ -23,6 +23,25 @@ This check can be used to:
 - force the existence of certain commands (e.g. `target_link_libraries` for target CMakeLists)
 
 === Config
+Example:
+```.json
+"config": {
+  "commands": [
+    {
+      "name": "^add_library|add_executable$",
+      "occurences": "1"
+    },
+    {
+      "name": "^target_link_libraries$",
+      "occurences": "1+"
+    },
+    {
+      "name": "^target_include_directories$",
+      "occurences": "1"
+    }
+  ]
+}
+```
 
 ==== commands
 `required, type: command[]`
@@ -57,7 +76,7 @@ by an optional `+` sign.
 Check C003 should be used to list *all* allowed CMake commands. Its primary use is to control 
 user defined commands. A warning is generated for each command that is not in the list.
 
-To explicitly forbid commands use check `C001`
+To explicitly forbid commands use check `C001`.
 
 === Config
 

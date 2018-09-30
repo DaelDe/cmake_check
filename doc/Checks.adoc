@@ -1,0 +1,19 @@
+:toc:
+:toclevels: 4
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Checker documentation
+
+This document describes all the available checks and their configuration.
+
+== C001 - Command Existence
+`id: C001`
+
+Check C001 can be used to verify that certain CMake commands exist or not exist.

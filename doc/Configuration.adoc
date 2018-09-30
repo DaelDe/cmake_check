@@ -1,4 +1,5 @@
 :toc:
+:toclevels: 4
 
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -49,3 +50,56 @@ rule is required.
 A rule is a logical element that describes a requirement to CMake files (an element
 of a coding guideline). A rule consists of any number of checks. The rule is checked
 for each input file and passes when all checks pass.
+
+==== id
+`required, type: string`
+
+Unique identifier of the rule. The id is part of the warning message when the rule is violated.
+
+==== appliesTo
+`required, type: enum[]`
+
+An array of file types that should be checked against the rule. Values are:
+
+[horizontal]
+CMakeLists:: CMakeLists.txt files that do not define targets. Usually these are the top-level file and 
+files that exist to recurse depper into a directory tree.
+TargetCMakeLists:: CMakeLists.txt files that define target(s).
+CMakeModule:: A CMake module with file extension `.cmake`.
+
+==== name
+`required, type: string`
+
+A short description of the rule.
+
+==== enabled
+`required, type: boolean`
+
+Can be used to disable rule checks without removing them from the configuration.
+
+==== severity
+`optional, type: enum, default: warning`
+
+One of `info`, `warning`, `error`. The severity is part of the warning output and recognized by e.g.
+the Jenkins warnings plugin. It can be used to fine-tune rules e.g. errors could result in a build failure,
+warnings in unstable builds and info does not affect the build at all.
+
+An important use case is the introduction of new warnings. Usually these should not break existing builds.
+Instead they can be introduced on info or warning severity. At some point in time when their number is stable,
+the severity can be raised.
+
+==== checks
+`required, type: check[]`
+
+All checks the rule consists of. The rule is considered as passed for a file when all checks of the rule pass. 
+A check object consists of the following values:
+
+===== id
+`required, type: string`
+
+The identifier of the check, see the list of available checks.
+
+===== config
+`required, type: object`
+
+Parameters for the specific check, see checker documentation.

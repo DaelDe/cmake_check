@@ -49,3 +49,19 @@ by an optional `+` sign.
 - `0` zero occurences, can be used to forbid commands completely
 - `0+` zero or more occurences
 - `1+` one or more ocvcurences
+
+
+== C003 - Command Whitelist
+`id: C003`
+
+Check C003 should be used to list *all* allowed CMake commands. Its primary use is to control 
+user defined commands. A warning is generated for each command that is not in the list.
+
+To explicitly forbid commands use check `C001`
+
+=== Config
+
+==== commands
+`required, type: string[]`
+
+The list of commands affected by the rule.

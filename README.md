@@ -118,10 +118,8 @@ For more information and further available options call `cmake_check -h`.
 
 <a name="config"></a>
 ## [Configuration &#9650;](#___top "click to go to top of document")
-An [example configuration](res/config.json) is available. It describes some of the *modern
-CMake* rules.
-
-Documentation for all config options is under construction.
+The documentation for the cmake_check configuration is available on 
+a [separate page](doc/Configuration.adoc).
 
 <a name="How_it_works"></a>
 # [How It Works &#9650;](#___top "click to go to top of document")

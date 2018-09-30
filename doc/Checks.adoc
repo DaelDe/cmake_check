@@ -1,0 +1,86 @@
+:toc:
+:toclevels: 1
+
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+
+= Checker documentation
+
+This document describes all the available checks and their configuration.
+
+== C001 - Command Existence
+`id: C001`
+
+Check C001 can be used to verify that certain CMake commands exist or not exist.
+This check can be used to:
+
+- forbid specific CMake vocabulary
+- force the existence of certain commands (e.g. `target_link_libraries` for target CMakeLists)
+
+=== Config
+Example:
+```.json
+"config": {
+  "commands": [
+    {
+      "name": "^add_library|add_executable$",
+      "occurences": "1"
+    },
+    {
+      "name": "^target_link_libraries$",
+      "occurences": "1+"
+    },
+    {
+      "name": "^target_include_directories$",
+      "occurences": "1"
+    }
+  ]
+}
+```
+
+==== commands
+`required, type: command[]`
+
+The list of commands affected by the rule.
+
+==== command
+
+===== name
+`required, type: string`
+
+A regular expression that defines the affected command(s).
+
+- `target` matches any command with target in its name
+- `^target_include_directories$` matches exactly the `target_include_directories` command
+- `^command1|command2$` matches exactly `command1` or `command2`
+
+===== occurences
+`required, type: string`
+
+An expression that defines the allowed number of appearances of command. It consists of any number followed
+by an optional `+` sign.
+
+- `0` zero occurences, can be used to forbid commands completely
+- `0+` zero or more occurences
+- `1+` one or more ocvcurences
+
+
+== C003 - Command Whitelist
+`id: C003`
+
+Check C003 should be used to list *all* allowed CMake commands. Its primary use is to control 
+user defined commands. A warning is generated for each command that is not in the list.
+
+To explicitly forbid commands use check `C001`.
+
+=== Config
+
+==== commands
+`required, type: string[]`
+
+The list of commands affected by the rule.

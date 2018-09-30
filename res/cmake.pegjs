@@ -23,9 +23,6 @@ maybe everything should return an array and it is flattened at some point
     // bracket count for bracket arguments, to match same count in closing bracket
     var tmpBC = 0;
 	
-    function countConsecOccurence(str, ch){
-    	return str.lastIndexOf(ch) - str.indexOf(ch) + 1;
-    }
     function cWhiteSpace(cl, txt, loc){
         return {type:"whitespace", class:cl, value:txt, location:loc};
     }
@@ -127,23 +124,24 @@ This may be used in calls to the if() command to enclose conditions
 */
 
 // There are three types of arguments within Command Invocations:
-argument =  bracket_argument    {return cArg('bracket', text(), location() ) } 
-            / quoted_argument   {return cArg('quoted', text(), location() ) } 
-            / unquoted_argument {return cArg('unquoted', text(), location() ) }
+argument =  ba:bracket_argument    {return cArg('bracket', ba, location() ) } 
+            / qa:quoted_argument   {return cArg('quoted', qa, location() ) } 
+            / ua:unquoted_argument {return cArg('unquoted', ua, location() ) }
 
 // A bracket argument, inspired by Lua long bracket syntax, encloses content between opening and closing “brackets” of the same length:
-bracket_argument =  bracket_open bracket_content bracket_close
-bracket_open     =  '[' '='* '[' 
+bracket_argument =  bracket_open c:bracket_content bracket_close { return c; }
+bracket_open     =  '[' eq:('=' *) '[' 
                     { 
-                        tmpBC = countConsecOccurence(text(), "="); 
+                        tmpBC = eq.length
                         return text()
                     }
 //any text not containing a bracket_close with the same number of '=' as the bracket_open
-bracket_content  = c:(!bracket_close .)*  { return c }
+bracket_content  = (!bracket_close .)*  { return text()}
 // bracket close should match the same amount of equal signs
-bracket_close    =  ']' eq:('='*) &{ 
+bracket_close    =  ']' eq:('=' *) ']' &{
+						// if the number of equal signs does not macht, it is not treated as a bracket argument, but an unquoted argument
                         return eq.length == tmpBC;
-                    } ']'
+                    }
 /*
 An opening bracket is written [ followed by zero or more = followed by [. The corresponding 
 closing bracket is written ] followed by the same number of = followed by ]. Brackets do not nest. 

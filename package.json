@@ -1,11 +1,12 @@
 {
   "name": "cmake_check",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "A static analyzer for CMakeLists.txt files and CMake modules",
   "main": "lib/Main.js",
   "scripts": {
     "setup": "npm install",
     "build": "tsc",
+    "watch": "tsc -w",
     "test": "mocha -r ts-node/register test/**/*.ts",
     "pkg": "pkg -t node8-linux-x64,node8-win-x64 --out-path bin ."
   },

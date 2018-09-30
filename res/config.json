@@ -12,6 +12,7 @@
       ],
       "name": "Allowed CMake commands",
       "enabled": true,
+      "severity": "warning",
       "checks": [
         {
           "id": "C003",
@@ -85,8 +86,9 @@
       "appliesTo": [
         "TargetCMakeLists"
       ],
-      "name": "name of rule",
-      "enabled": false,
+      "name": "target structure",
+      "enabled": true,
+      "severity": "error",
       "checks": [
         {
           "id": "C001",
@@ -115,7 +117,7 @@
         "TargetCMakeLists"
       ],
       "name": "Variable usage is prohibited",
-      "enabled": false,
+      "enabled": true,
       "checks": [
         {
           "id": "C001",
@@ -136,7 +138,7 @@
         "TargetCMakeLists"
       ],
       "name": "Forbidden CMake commands",
-      "enabled": false,
+      "enabled": true,
       "checks": [
         {
           "id": "C001",
@@ -173,7 +175,7 @@
         "TargetCMakeLists"
       ],
       "name": "Project not allowed along target definitions",
-      "enabled": false,
+      "enabled": true,
       "checks": [
         {
           "id": "C001",

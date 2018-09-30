@@ -28,11 +28,15 @@ export class Rule {
         return this.config.enabled;
     }
 
+    public get severity(): string {
+        if (this.config.severity) return this.config.severity;
+        else return "warning";
+    }
+
     public check(cm: CMakeFile): checks.FailedCheck[]|undefined {
         if (!cm.type || !this.config.appliesTo.includes(FileType[cm.type()]) ) {
             return undefined;
         }
-
         this.results = [];
         this.checks.forEach( (c) => {
             this.results = this.results.concat(c.check(cm));

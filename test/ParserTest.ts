@@ -139,5 +139,32 @@ describe("The Peg.js parser for the CMake language", () => {
             assert.propertyVal(r[0].args[0], "name", `-dDEF="foo"`);
         });
 
+        it("bracket argument without equal signs", () => {
+            const r: any[] = p._parse(`f([[TYPE_TO_STRING(x)=""]])`);
+            assert.lengthOf(r, 1);
+
+            assert.propertyVal(r[0], "type", "command");
+            assert.propertyVal(r[0], "name", "f");
+            assert.propertyVal(r[0].args[0], "type", "argument");
+            assert.propertyVal(r[0].args[0], "class", "bracket");
+            assert.propertyVal(r[0].args[0], "name", `TYPE_TO_STRING(x)=""`);
+        });
+
+        it("bracket argument with equal signs", () => {
+            const r: any[] = p._parse(`f([==[TYPE_TO_STRING(x)=""]==])`);
+            assert.lengthOf(r, 1);
+
+            assert.propertyVal(r[0], "type", "command");
+            assert.propertyVal(r[0], "name", "f");
+            assert.propertyVal(r[0].args[0], "type", "argument");
+            assert.propertyVal(r[0].args[0], "class", "bracket");
+            assert.propertyVal(r[0].args[0], "name", `TYPE_TO_STRING(x)=""`);
+        });
+
+        it("bracket argument wrong number of equal signs", () => {
+            // this is not a valid bracket argument and raises an exception
+            assert.throws( ()=>{ p._parse(`f([==[TYPE_TO_STRING(x)=""]=])`) }, /Expected.*/);
+        });
+
     });
 });

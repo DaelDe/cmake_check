@@ -15,7 +15,9 @@ This document is all you need to know about what's required in your cmake_check 
 It must be actual JSON, not just a JavaScript object literal. It contains of one JSON object, its
 members are described in the following sections.
 
-As a reference, a commented JSON https://github.com/DaelDe/cmake_check/blob/master/res/config.schema.json[schema] exists.
+As a reference, a commented JSON link:../res/config.schema.json[schema] exists.
+
+An example configuration as a basic starting point link:../res/config.json[exists].
 
 == crawler
 `required, type:object`

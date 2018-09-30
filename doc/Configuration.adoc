@@ -34,11 +34,11 @@ files and should be excluded from analysis like 3rd party code.
 
 [source,json]
 ----
-"excludePaths":[".git$", ".svn$"]
+"excludePaths":["\\.git$", "\\.svn$"]
 ----
 
-NOTE: TODO describe how to properly escape . and fix example
-      describe how to match more segments of a path, os path separator etc.
+NOTE: When a character needs to be escaped in the regular expression, 2 backslashes are needed.
+      If a path under windows should be excluded, 4 backslashes are needed: `folder\\\\folder1`.
 
 == cRules
 `required, type:Rule[]`

@@ -11,6 +11,7 @@ endif::[]
 
 = The cmake_check configuration file
 
+== Intro
 This document is all you need to know about what's required in your cmake_check configuration file. 
 It must be actual JSON, not just a JavaScript object literal. It contains of one JSON object, its
 members are described in the following sections.

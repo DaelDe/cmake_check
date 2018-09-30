@@ -1,5 +1,5 @@
 :toc:
-:toclevels: 4
+:toclevels: 1
 
 ifdef::env-github[]
 :tip-caption: :bulb:
@@ -17,3 +17,35 @@ This document describes all the available checks and their configuration.
 `id: C001`
 
 Check C001 can be used to verify that certain CMake commands exist or not exist.
+This check can be used to:
+
+- forbid specific CMake vocabulary
+- force the existence of certain commands (e.g. `target_link_libraries` for target CMakeLists)
+
+=== Config
+
+==== commands
+`required, type: command[]`
+
+The list of commands affected by the rule.
+
+==== command
+
+===== name
+`required, type: string`
+
+A regular expression that defines the affected command(s).
+
+- `target` matches any command with target in its name
+- `^target_include_directories$` matches exactly the `target_include_directories` command
+- `^command1|command2$` matches exactly `command1` or `command2`
+
+===== occurences
+`required, type: string`
+
+An expression that defines the allowed number of appearances of command. It consists of any number followed
+by an optional `+` sign.
+
+- `0` zero occurences, can be used to forbid commands completely
+- `0+` zero or more occurences
+- `1+` one or more ocvcurences

@@ -31,7 +31,7 @@ Step 3:  Invoke cmake_check to check your CMake files or directories.
 The executable name differs depending on whether you use the
 development source version (`cmake_check`), a Windows executable
 (`cmake_check-win.exe`) or , a Linux executable
-(`cmake-check-linux`).  On this page, `cmake_check` is the generic term
+(`cmake_check-linux`).  On this page, `cmake_check` is the generic term
 used to refer to any of these.
 
 **a file**

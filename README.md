@@ -98,7 +98,7 @@ of Linux and Windows binaries.
 ## [NPM &#9650;](#___top "click to go to top of document")
 Install [NodeJS](https://nodejs.org/) (version > 8.11).
 ```sh
-npm install -g cmake_check`
+npm install -g cmake_check
 ```
 
 <a name="Versioning"></a>

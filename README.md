@@ -30,13 +30,13 @@ Step 2:  Open a terminal (`cmd.exe` on Windows).
 Step 3:  Invoke cmake_check to check your CMake files or directories.
 The executable name differs depending on whether you use the
 development source version (`cmake_check`), a Windows executable
-(`cmake_check-win.exe`) or , a Linux executable
-(`cmake_check-linux`).  On this page, `cmake_check` is the generic term
+(`cmake_check.exe`) or , a Linux executable
+(`cmake_check`).  On this page, `cmake_check` is the generic term
 used to refer to any of these.
 
 **a file**
 <pre>
-prompt> cmake_check -c config.json -i CMakeLists.txt -v
+prompt> cmake_check -i CMakeLists.txt -v
 info: Checking CMakeLists.txt
 CMakeLists(10).txt (66) : warning Whitelist: calls to some_custom_function are not allowed by whitelist
 info: Checked 1 files
@@ -48,7 +48,7 @@ info: took {"durationMs":28}
 
 **a directory**
 <pre>
-prompt> cmake_check -c config.json -i project_folder -v
+prompt> cmake_check -i project_folder -v
 info: Checking files in project_folder
 project_folder/libFoo/CMakeLists.txt (66) : warning Whitelist: calls to some_custom_function are not allowed by whitelist
 project_folder/libBar/CMakeLists.txt (50) : warning Whitelist: calls to some_other_custom_function are not allowed by whitelist
@@ -109,8 +109,13 @@ Cmake_check uses [semantic versioning](https://semver.org/).
 # [Basic Usage &#9650;](#___top "click to go to top of document")
 The basic use is:
 ```sh
+cmake_check -i <input folder or file>
+```
+or with custom configuration:
+```sh
 cmake_check -c <config file> -i <input folder or file>
 ```
+
 All CMake files in the given input folders are analyzed with the given configuration.
 All warnings are written to stdout.
 

@@ -14,11 +14,10 @@ const opt = yargs
     .count("v").describe("v", "Increase verbosity level (v:info, vv:verbose)")
     .option("c", {
         alias: "config",
-        demandOption: true,
         describe: "Path to JSON config file",
         type: "string",
     })
-    .demandOption(["config", "input"], "Please provide a configuration and input")
+    .demandOption(["input"], "Please provide input")
     .help().alias("help", "h")
     .option("o", {
         alias: "out",
@@ -41,7 +40,13 @@ if (opt.v === 1) {
 }
 
 // load configuration
-const config = JSON.parse( fs.readFileSync(opt.config).toString() );
+let config: any;
+if (opt.config) {
+    config = JSON.parse( fs.readFileSync(opt.config).toString() );
+} else {
+    config = JSON.parse( fs.readFileSync(`${__dirname}/../res/config.json`).toString());
+}
+
 // validate the given config file against a schema
 const validator = new avj.default({
     jsonPointers: true,

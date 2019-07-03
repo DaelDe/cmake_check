@@ -8,7 +8,9 @@
     "build": "tsc",
     "watch": "tsc -w",
     "test": "mocha -r ts-node/register test/**/*.ts",
-    "pkg": "pkg -t node8-linux-x64 --output .bin/cmake_check . && pkg -t node8-win-x64 --output .bin/cmake_check.exe ."
+    "pkg": "pkg -t node8-linux-x64 --output .bin/cmake_check . && pkg -t node8-win-x64 --output .bin/cmake_check.exe .",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "files": [
     "res",
@@ -52,9 +54,11 @@
     "ajv": "^6.5.5",
     "pegjs": "^0.10.0",
     "winston": "^3.1.0",
-    "yargs": "^12.0.4"
+    "yargs": "^12.0.4",
+    "snyk": "^1.189.0"
   },
   "pkg": {
     "assets": "res/**/*"
-  }
+  },
+  "snyk": true
 }
